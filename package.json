@@ -1,5 +1,6 @@
 {
   "name": "web.bro",
+  "type": "module",
   "version": "1.0.0",
   "description": "��#\u0000 \u0000w\u0000e\u0000b\u0000.\u0000b\u0000r\u0000o\u0000\r\u0000 \u0000",
   "author": {
@@ -16,12 +17,18 @@
   "bugs": {
     "url": "https://github.com/o-k-harmash/web.bro/issues"
   },
-  "main": "index.js",
+  "main": "./src/presentation/startup.js",
   "scripts": {
+    "format:fix": "eslint --fix && npx prettier . --write",
     "pretify:fix": "npx prettier . --write",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "dependencies": {
+    "fastify": "^5.4.0",
+    "node-netstat": "^1.9.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.15.0",
