@@ -1,0 +1,23 @@
+{
+  "name": "web.bro",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000w\u0000e\u0000b\u0000.\u0000b\u0000r\u0000o\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/o-k-harmash/web.bro.git"
+  },
+  "author": {
+    "name": "Alex Harmash",
+    "email": "o.k.harmash@gmail.com",
+    "telegram": "@plchktwx"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/o-k-harmash/web.bro/issues"
+  },
+  "homepage": "https://github.com/o-k-harmash/web.bro#readme"
+}
