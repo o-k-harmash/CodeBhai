@@ -2,6 +2,7 @@ import process from "node:process";
 import Fastify from "fastify";
 import { findFreePort } from "../shared/netstat.js";
 import routeMapper from "./api/base.js";
+import handlebarMidelware from "./midelwares/handlebar.js";
 
 export default class App {
   _server;
@@ -12,11 +13,15 @@ export default class App {
     });
   }
 
+  useMidelwares() {
+    handlebarMidelware(this._server);
+  }
+
   configureRouter() {
     this._server.register(routeMapper, { prefix: "v1/base/" });
   }
 
-  gracefullShutdown(){
+  gracefullShutdown() {
     process.exit(1);
   }
 

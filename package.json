@@ -27,7 +27,9 @@
     "start": "node ."
   },
   "dependencies": {
+    "@fastify/view": "^11.1.0",
     "fastify": "^5.4.0",
+    "handlebars": "^4.7.8",
     "node-netstat": "^1.9.0"
   },
   "devDependencies": {
