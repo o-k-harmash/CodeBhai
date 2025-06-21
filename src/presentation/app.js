@@ -2,6 +2,7 @@ import process from "node:process";
 import Fastify from "fastify";
 import { findFreePort } from "../shared/netstat.js";
 import routeMapper from "./api/root.js";
+import configureStaticAssets from "./midelwares/configureStaticAssets.js";
 import configureViewEngine from "./midelwares/configureViewEngine.js";
 
 export default class App {
@@ -14,6 +15,7 @@ export default class App {
   }
 
   configureMiddlewares() {
+    configureStaticAssets(this._server);
     configureViewEngine(this._server);
   }
 
