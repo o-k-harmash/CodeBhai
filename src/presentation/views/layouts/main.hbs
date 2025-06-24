@@ -1,9 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link href="/static/main.css" rel="stylesheet">
-  </head>
-  <body>
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+
+  <link href="/static/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="nav">
+    <div class="nav__content">
+      <a class="nav__logo" href="">
+        {{!-- <img src="/static/assets/images/logo.png" alt=""> --}}
+        <strong>W</strong>eb<span class="dot">.</span>bro
+      </a>
+
+      <div class="nav__inline-menu">
+        <a class="nav__link" href="">dashboard</a>
+        <a class="nav__link" href="">all paths</a>
+        <a class="nav__link" href="">community</a>
+        <a class="nav__link" href="">support us</a>
+        <div class="nav__user-panel">
+          <img src="/static/assets/images/bell.png" alt="">
+          <img src="/static/assets/images/moon.png" alt="">
+          <img class="nav__avatar"
+            src="https://lh3.googleusercontent.com/a/ACg8ocKKfQ_WTThUcLga0DG-bxhfTGjfmCm4B3HB_kZq1bOzTadCew" alt="">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
     {{> lesson }}
-  </body>
+  </main>
+
+  <section class="support">
+    <div class="support__content">
+      <h1 class="support__title">Support us!</h1>
+      <p class="support__description">The Web.bro Project is funded by the community. Join us in empowering learners
+        around the globe by supporting The Web.bro Project!</p>
+      <div class="support__actions">
+        <a class="btn btn--transpirent" href="">Learn more</a>
+        <a class="btn btn--green" href="">Donate now</a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer__content">
+      <nav class="footer__nav">
+        <div class="footer__socials">
+          <a class="nav__logo" href="">
+            {{!-- <img src="/static/assets/images/logo.png" alt=""> --}}
+            <strong>W</strong>eb<span class="dot">.</span>bro
+          </a>
+          <p class="footer__about">High quality coding education maintained by an open source community.</p>
+          <div class="footer__socials-links">
+            <a href=""><img src="/static/assets/images/github.png" alt=""></a>
+            <a href=""><img src="/static/assets/images/discord.png" alt=""></a>
+          </div>
+        </div>
+        <div class="footer__resources">
+          <div class="footer__block">
+            <h3>About us</h3>
+            <a href="">About</a>
+            <a href="">Team</a>
+            <a href="">Blog</a>
+            <a href="">Success stories</a>
+          </div>
+          <div class="footer__block">
+            <h3>Support</h3>
+            <a href="">FAQ</a>
+            <a href="">Contribute</a>
+            <a href="">Contact us</a>
+          </div>
+          <div class="footer__block">
+            <h3>Guides</h3>
+            <a href="">Community guides</a>
+            <a href="">Installation guides</a>
+          </div>
+          <div class="footer__block">
+            <h3>Legal</h3>
+            <a href="">Terms</a>
+            <a href="">Privacy</a>
+          </div>
+        </div>
+      </nav>
+      <div class="footer__copyrating">
+        © 2025 The Web.bro Project. All rights reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+
 </html>
