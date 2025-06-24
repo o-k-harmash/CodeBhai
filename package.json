@@ -37,6 +37,7 @@
     "@antfu/eslint-config": "^4.15.0",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-format": "^1.0.1",
     "prettier": "3.5.3"
   }
 }
