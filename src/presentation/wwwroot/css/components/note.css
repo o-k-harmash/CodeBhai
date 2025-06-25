@@ -1,0 +1,56 @@
+.note {
+  margin-bottom: var(--space-5);
+  border-left: var(--border-width-4) solid;
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  background-color: color-mix(in hsl, var(--color-gray-700) 40%, transparent);
+}
+
+.note > :first-child::before {
+  margin-right: var(--space-2);
+  content: "";
+  display: inline-block;
+  height: var(--space-5);
+  width: var(--space-5);
+  vertical-align: text-bottom;
+}
+
+.note :last-child {
+  margin-bottom: 0;
+}
+
+.note--important {
+  border-color: var(--important-border-color);
+}
+
+.note--important > :first-child::before {
+  mask-image: url(/static/assets/icons/pencil-square-solid-5a3f0e71.svg);
+  background-color: var(--important-border-color);
+}
+
+.note--critical {
+  border-color: var(--critical-border-color);
+}
+
+.note--critical > :first-child::before {
+  mask-image: url(/static/assets/icons/exclamation-circle-solid-d154d598.svg);
+  background-color: var(--critical-border-color);
+}
+
+.note--tip {
+  border-color: var(--tip-border-color);
+}
+
+.note--tip > :first-child::before {
+  mask-image: url(/static/assets/icons/light-bulb-solid-a4205a99.svg);
+  background-color: var(--tip-border-color);
+}
+
+.note--warning {
+  border-color: var(--warning-border-color);
+}
+
+.note--warning > :first-child::before {
+  mask-image: url(/static/assets/icons/exclamation-triangle-solid-8aa4a0c1.svg);
+  background-color: var(--warning-border-color);
+}

@@ -8,7 +8,27 @@
     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
     rel="stylesheet">
 
-  <link href="/static/css/main.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+
+  <link href="/static/css/base.css" rel="stylesheet">
+  <link href="/static/css/layouts/main.css" rel="stylesheet">
+  <link href="/static/css/pages/lesson.css" rel="stylesheet">
+  <link href="/static/css/components/list.css" rel="stylesheet">
+  <link href="/static/css/components/link.css" rel="stylesheet">
+  <link href="/static/css/components/button.css" rel="stylesheet">
+  <link href="/static/css/components/note.css" rel="stylesheet">
+  <link href="/static/css/components/panel.css" rel="stylesheet">
+  <link href="/static/css/components/span.css" rel="stylesheet">
 </head>
 
 <body>
@@ -45,8 +65,8 @@
       <p class="support__description">The Web.bro Project is funded by the community. Join us in empowering learners
         around the globe by supporting The Web.bro Project!</p>
       <div class="support__actions">
-        <a class="btn btn--transpirent" href="">Learn more</a>
-        <a class="btn btn--green" href="">Donate now</a>
+        <a class="button button--transpirent" href="">Learn more</a>
+        <a class="button button--green" href="">Donate now</a>
       </div>
     </div>
   </section>
@@ -66,27 +86,36 @@
         </div>
         <div class="footer__resources">
           <div class="footer__block">
-            <h3>About us</h3>
-            <a href="">About</a>
-            <a href="">Team</a>
-            <a href="">Blog</a>
-            <a href="">Success stories</a>
+            <h5>About us</h5>
+            <ul>
+              <li><a class="footer__link" href="">About</a></li>
+              <li><a class="footer__link" href="">Team</a></li>
+              <li><a class="footer__link" href="">Blog</a></li>
+              <li><a class="footer__link" href="">Success stories</a></li>
+            </ul>
           </div>
           <div class="footer__block">
-            <h3>Support</h3>
-            <a href="">FAQ</a>
-            <a href="">Contribute</a>
-            <a href="">Contact us</a>
+            <h5>Support</h5>
+            <ul>
+              <li><a class="footer__link" href="">FAQ</a></li>
+              <li><a class="footer__link" href="">Contribute</a></li>
+              <li><a class="footer__link" href="">Contact us</a></li>
+            </ul>
           </div>
           <div class="footer__block">
-            <h3>Guides</h3>
-            <a href="">Community guides</a>
-            <a href="">Installation guides</a>
+            <h5>Guides</h5>
+            <ul>
+              <li><a class="footer__link" href="">Community guides</a></li>
+              <li><a class="footer__link" href="">Installation guides</a></li>
+            </ul>
           </div>
           <div class="footer__block">
-            <h3>Legal</h3>
-            <a href="">Terms</a>
-            <a href="">Privacy</a>
+            <h5>Legal</h5>
+            <ul>
+              <li><a class="footer__link" href="">Terms</a></li>
+              <li><a class="footer__link" href="">Privacy</a></li>
+            </ul>
+
           </div>
         </div>
       </nav>

@@ -1,0 +1,163 @@
+.nav {
+  border-bottom: var(--border-width-1) solid var(--color-gray-800);
+}
+
+.nav__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem var(--space-5);
+  max-inline-size: var(--size-container);
+  margin-inline: auto;
+}
+
+.nav__inline-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.nav__logo {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  letter-spacing: -0.03125px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.nav__logo strong {
+  font-weight: 800;
+  color: #007acc;
+  /* как у VS Code / MSDN */
+}
+
+.nav__logo .dot {
+  color: #e95420;
+  /* тёплая точка — как визуальный акцент */
+  margin-left: 0.125rem;
+  margin-right: 0.0053125rem;
+  font-weight: bold;
+}
+
+.nav__link {
+  font-weight: var(--font-weight-500);
+  text-transform: capitalize;
+  position: relative;
+}
+
+.nav__link:hover::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) translateY(var(--space-1));
+  inline-size: 120%;
+  block-size: 0.125rem;
+  background-color: currentColor;
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-base);
+}
+
+.nav__user-panel *:hover {
+  cursor: pointer;
+}
+
+.nav__user-panel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav__avatar {
+  inline-size: var(--size-avatar);
+  block-size: var(--size-avatar);
+  border-radius: 100%;
+  margin-left: var(--space-2);
+}
+
+.support {
+  background-color: color-mix(in hsl, var(--color-gray-800) 30%, transparent);
+}
+
+.support__content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  max-inline-size: 36rem;
+  margin-inline: auto;
+  padding: calc(var(--space-5) * 4) calc(var(--space-5) * 2);
+}
+
+.support__description {
+  color: var(--color-gray-400);
+}
+
+.support__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.footer__content {
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+  padding: var(--space-6) var(--space-5) var(--space-5);
+  max-inline-size: var(--size-container);
+}
+
+.footer__nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__socials {
+  flex: 0 0 24rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.footer__copyrating {
+  font-size: var(--font-size-xs);
+  padding-top: var(--space-6);
+  border-top: var(--border-width-1) solid var(--color-gray-800);
+}
+
+.footer__nav {
+  flex-wrap: wrap;
+  display: flex;
+  gap: var(--space-5);
+  margin-bottom: calc(var(--space-5) * 4);
+}
+
+.footer__socials-links {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.footer__resources {
+  gap: calc(var(--space-5) * 2);
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__block {
+  flex: 0 0 11rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__link:hover {
+  color: var(--color-gray-200);
+}
+
+@media (max-width: 75rem) {
+  .footer__resources {
+    inline-size: 100%;
+    flex-wrap: wrap;
+  }
+}
