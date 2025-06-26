@@ -9,6 +9,7 @@ export default function configureViewEngine(fastify, options = {}) {
     options: {
       partials: {
         lesson: "lesson.hbs",
+        notfound: "notfound.hbs",
       },
     },
     layout: "layouts/main.hbs",

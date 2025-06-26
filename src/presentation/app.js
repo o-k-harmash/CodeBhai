@@ -1,7 +1,7 @@
 import process from "node:process";
 import Fastify from "fastify";
 import { findFreePort } from "../shared/netstat.js";
-import routeMapper from "./api/root.js";
+import LessonController from "./api/lessonController.js";
 import configureStaticAssets from "./midelwares/configureStaticAssets.js";
 import configureViewEngine from "./midelwares/configureViewEngine.js";
 
@@ -19,8 +19,11 @@ export default class App {
     configureViewEngine(this._server);
   }
 
-  configureEndpoints() {
-    this._server.register(routeMapper, { prefix: "v1/root/" });
+  configureEndpoints(lessonService) {
+    const lessonController = new LessonController(lessonService, this._server);
+    this._server.register(lessonController.mapEndpoints, {
+      prefix: "v1/lesson/",
+    });
   }
 
   gracefullShutdown() {
