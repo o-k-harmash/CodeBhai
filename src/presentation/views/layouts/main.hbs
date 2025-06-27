@@ -1,6 +1,8 @@
 <html lang="en">
 
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,22 +17,15 @@
       rel="stylesheet"
     />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet"
-    />
-
     <link href="/static/css/base.css" rel="stylesheet" />
     <link href="/static/css/layouts/main.css" rel="stylesheet" />
     <link href="/static/css/pages/lesson.css" rel="stylesheet" />
-    <link href="/static/css/components/list.css" rel="stylesheet" />
-    <link href="/static/css/components/link.css" rel="stylesheet" />
+    <link href="/static/css/components/markdown.css" rel="stylesheet" />
     <link href="/static/css/components/button.css" rel="stylesheet" />
-    <link href="/static/css/components/note.css" rel="stylesheet" />
-    <link href="/static/css/components/panel.css" rel="stylesheet" />
-    <link href="/static/css/components/span.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/stackoverflow-dark.min.css"
+    />
   </head>
 
   <body>
@@ -48,11 +43,9 @@
           <a class="nav__link" href="">community</a>
           <a class="nav__link" href="">support us</a>
           <div class="nav__user-panel">
-            <img src="/static/assets/images/bell.png" alt="" />
-            <img src="/static/assets/images/moon.png" alt="" />
             <img
               class="nav__avatar"
-              src="https://lh3.googleusercontent.com/a/ACg8ocKKfQ_WTThUcLga0DG-bxhfTGjfmCm4B3HB_kZq1bOzTadCew"
+              src="/static/assets/user-profile-img.png"
               alt=""
             />
           </div>
@@ -87,14 +80,7 @@
             <p class="footer__about">High quality coding education maintained by
               an open source community.</p>
             <div class="footer__socials-links">
-              <a href=""><img
-                  src="/static/assets/images/github.png"
-                  alt=""
-                /></a>
-              <a href=""><img
-                  src="/static/assets/images/discord.png"
-                  alt=""
-                /></a>
+
             </div>
           </div>
           <div class="footer__resources">
@@ -137,6 +123,19 @@
         </div>
       </div>
     </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
+    ></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js"
+    ></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
   </body>
 
 </html>

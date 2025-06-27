@@ -34,7 +34,7 @@ export default class App {
     let port = await findFreePort({});
     port ??= 0;
 
-    this._server.listen({ port }, (err) => {
+    this._server.listen({ port, host: "0.0.0.0" }, (err) => {
       if (err) {
         this._server.log.error(err);
         this.gracefullShutdown();

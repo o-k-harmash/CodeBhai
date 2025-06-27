@@ -1,42 +1,87 @@
-# Heading level 1
+### Understanding Asynchronous JavaScript
 
-Some text paragraph with inline code `console.log('Hello, world!')` inside a sentence.
+JavaScript is single-threaded but supports **asynchronous operations** via callbacks, promises, and `async/await`.
 
-## Heading level 2
+:::note{.important}
+This lesson introduces different styles of handling asynchronous tasks in JavaScript.
+:::
 
-Paragraph with **bold** and _italics_, and also with inline code `let x = 42;`.
+#### The Event Loop
 
-### Heading level 3
+The **event loop** is at the heart of asynchronous behavior.
 
-- Unordered list of the first level
-  - Nested level 1
-    - Nested level 2 with inline code `const y = x + 1;`
-  - Another item of the nested list
-- Second item of the main list
+- Executes synchronous code in the call stack.
+- Queues async callbacks (e.g., `setTimeout`, I/O) in the task queue.
+- Uses the event loop to push tasks back to the call stack when it's free.
 
-1. Numbered list of the first level
-   1. Nested numbered level 1
-      1. Nested numbered level 2
-   2. Another nested item
-2. The second item of the numbered list
+:::note{.tip}
 
----
+#### Tip
 
-A paragraph after the lists with new inline code `function test() { return true; }`.
+Remember: JavaScript’s concurrency model uses an event loop, not multiple threads.
 
-> A blockquote with a paragraph inside.
+:::
 
-Another paragraph with `inline code` and a link to [Fastify](https://www.fastify.io/).
+```javascript
+// Example: Promise usage
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
----
+async function main() {
+  console.log("Start");
+  await delay(1000);
+  console.log("One second later");
+}
 
-#### Heading level 4
+main();
+```
 
-- Mixed list:
-  1. First element
-     - Subelement with `inline code`
-  2. Second element
+:::note{.warning}
 
----
+#### Warning
 
-`Single-line code`
+Avoid blocking the event loop with heavy computations; it freezes UI and delays async callbacks.
+:::
+
+### Callbacks vs Promises vs Async/Await
+
+:::panel
+
+1. Callbacks: Oldest method but leads to "callback hell".
+
+```javascript
+// Callback example
+setTimeout(() => {
+  console.log("Callback fired!");
+}, 1000);
+```
+
+2. Promises: Cleaner chaining and error handling.
+
+```javascript
+// Promise example
+fetch("/data.json")
+  .then((response) => response.json())
+  .then((data) => console.log(data));
+```
+
+3. Async/Await: Syntactic sugar on top of Promises, easier to read.
+
+```javascript
+// Async/Await example
+async function fetchData() {
+  const response = await fetch("/data.json");
+  const data = await response.json();
+  console.log(data);
+}
+```
+
+:::
+
+:::note{.tip}
+
+#### Remember
+
+Always handle errors in async code to avoid uncaught exceptions.
+:::

@@ -1,8 +1,0 @@
-.span {
-  color: var(--span-color-base);
-  background-color: var(--span-background);
-  padding: var(--space-1);
-  border-radius: var(--radius-md);
-  font-family: monospace;
-  font-size: var(--font-size-sm);
-}

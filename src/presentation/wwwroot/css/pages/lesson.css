@@ -58,11 +58,17 @@
   border-color: var(--color-terra-700);
 }
 
-.lesson__nav {
-  display: flex;
-  justify-content: space-between;
-}
+@media (max-width: 75rem) {
+  .aside {
+    display: none;
+  }
 
-.lesson__complete {
-  flex: 2;
+  .lesson {
+    padding-inline-start: var(--space-6);
+  }
+
+  .markdown {
+    flex-grow: 1;
+    text-align: start;
+  }
 }
