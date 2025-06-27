@@ -1,0 +1,16 @@
+.internal-error__content {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  max-inline-size: 48rem;
+  margin-inline: auto;
+  padding: calc(var(--space-5) * 4) calc(var(--space-5) * 2);
+}
+
+.internal-error__title {
+  font-size: calc(var(--font-size-md) * 2);
+}
+
+.internal-error__description {
+  color: var(--color-gray-400);
+}
