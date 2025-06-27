@@ -1,0 +1,27 @@
+.button {
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-6);
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--radius-md);
+}
+
+.button--transpirent {
+  color: var(--color-gray-300);
+  border-color: var(--color-gray-600);
+}
+
+.button--transpirent:hover {
+  background-color: var(--color-gray-700);
+}
+
+.button--green {
+  color: var(--color-gray-200);
+  background-color: var(--color-teal-700);
+}
+
+.button--green:hover {
+  background-color: var(--color-teal-800);
+}
