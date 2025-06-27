@@ -2,5 +2,6 @@ import App from "./app.js";
 
 const app = new App();
 
-app.configureRouter();
+app.configureMiddlewares();
+app.configureEndpoints();
 app.listen();
