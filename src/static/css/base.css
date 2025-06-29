@@ -93,6 +93,10 @@
   box-sizing: border-box;
 }
 
+.hidden {
+  display: none !important;
+}
+
 hr {
   margin-bottom: var(--space-5);
   border-bottom: var(--border-width-1) solid var(--color-gray-800);
