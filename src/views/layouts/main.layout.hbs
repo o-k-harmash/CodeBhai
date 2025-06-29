@@ -41,7 +41,7 @@
           <strong>W</strong>eb<span class="dot">.</span>bro
         </a>
 
-        <div class="nav__inline-menu">
+        <div id="nav-inline-menu" class="nav__inline-menu">
           <a class="nav__link" href="">dashboard</a>
           <a class="nav__link" href="">all paths</a>
           <a class="nav__link" href="">community</a>
@@ -54,6 +54,41 @@
             />
           </div>
         </div>
+        <!-- Триггер -->
+        <button
+          id="nav-toggle-btn"
+          class="nav__toggle-btn"
+          aria-label="Открыть меню"
+          aria-hidden="true"
+        >
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+
+        <!-- Оверлей + меню -->
+        <div id="nav-overlay" class="nav__overlay" aria-hidden="true">
+          <div class="nav__sidebar">
+            <button
+              id="nav-sidebar-close"
+              class="nav__sidebar-close"
+              aria-label="Закрыть меню"
+            >×</button>
+            <nav class="nav__sidebar-nav">
+              <a class="nav__logo nav__sidebar-logo" href="">
+                <strong>W</strong>eb<span class="dot">.</span>bro
+              </a>
+              <a class="nav__sidebar-link" href="">dashboard</a>
+              <a class="nav__sidebar-link" href="">all paths</a>
+              <a class="nav__sidebar-link" href="">community</a>
+              <a class="nav__sidebar-link" href="">support us</a>
+              <hr class="nav__sidebar-separator" />
+              <a class="nav__sidebar-link" href="">settings</a>
+              <a class="nav__sidebar-link" href="">sign</a>
+            </nav>
+          </div>
+        </div>
+
       </div>
     </nav>
 
@@ -128,6 +163,7 @@
       </div>
     </footer>
 
+    <script src="/static/js/main.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
     ></script>
