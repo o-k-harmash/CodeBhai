@@ -4,7 +4,7 @@ img: "badge-javascript-43bfdf7b.svg"
 authors:
   - name: "John Doe"
     link: "https://example.com"
-module: "intro"
+module: "JavaScript"
 nextLesson: "lesson-2"
 ---
 

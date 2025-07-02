@@ -5,8 +5,8 @@ import fastifyStatic from "@fastify/static";
 import fastifyView from "@fastify/view";
 import Fastify from "fastify";
 import handlebars from "handlebars";
-import lessonRoutes from "./routes/lesson.routes.js";
-import modulesRoutes from "./routes/modules.routes.js";
+import curriculumRoutes from "./routes/curriculums.js";
+import unitRoutes from "./routes/units.js";
 import { findFreePort } from "./utils/netstat.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,8 +36,8 @@ app.register(fastifyView, {
   root: path.join(__dirname, "views"),
 });
 
-app.register(lessonRoutes, { prefix: "/units" });
-app.register(modulesRoutes, { prefix: "/curriculums" });
+app.register(unitRoutes, { prefix: "/units" });
+app.register(curriculumRoutes, { prefix: "/curriculums" });
 
 (async () => {
   try {
