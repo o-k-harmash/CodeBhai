@@ -1,4 +1,7 @@
 .button {
+  line-height: 1.5;
+  background-color: transparent;
+  cursor: pointer;
   font-size: var(--font-size-sm);
   display: flex;
   align-items: center;

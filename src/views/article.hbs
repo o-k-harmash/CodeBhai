@@ -1,0 +1,40 @@
+<div class="lesson">
+  <div class="lesson__content">
+    <header class="lesson__head">
+      <img
+        class="img img--22"
+        src="/static/assets/images/{{data.img}}"
+        alt=""
+      />
+      <div>
+        <h2>{{data.title}}</h2>
+        <p>{{data.module}}</p>
+      </div>
+    </header>
+
+    <article class="markdown">
+      {{{data.rawHtml}}}
+    </article>
+
+    <nav class="lesson__nav">
+      <a class="button button--transpirent" href="/curriculums/units">View
+        module</a>
+      <button class="button button--green">Mark as completed</button>
+      <a
+        class="button button--transpirent"
+        href="/units/{{data.nextLesson}}"
+      >Next lesson</a>
+    </nav>
+  </div>
+
+  <aside class="aside">
+    <h4 class="aside__title">Lesson contents</h4>
+    <ul>
+      {{#each data.h3Ids}}
+        <li class="aside__item">
+          <a class="aside__link" href="#{{id}}">{{text}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </aside>
+</div>

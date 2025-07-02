@@ -1,0 +1,61 @@
+.curriculum {
+  max-inline-size: 59rem;
+  margin-inline: auto;
+  padding: var(--space-6);
+
+  --curriculum-border: var(--border-width-1) solid var(--color-gray-700);
+}
+
+.curriculum__intro {
+  padding-block: var(--space-6);
+}
+
+.curriculum__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.curriculum__card {
+  padding: var(--space-5);
+  background-color: var(--color-gray-800);
+  border-radius: var(--radius-lg);
+  border: var(--curriculum-border);
+  margin-bottom: var(--space-6);
+}
+
+.curriculum__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--curriculum-border);
+  margin-bottom: var(--space-5);
+}
+
+.curriculum__units {
+  display: inline-flex;
+  gap: var(--space-2);
+}
+
+.curriculum__start-btn {
+    margin-inline-start: auto;
+}
+
+.curriculum__unit {
+  font-size: var(--font-size-sm);
+  text-transform: capitalize;
+  color: var(--color-gray-450);
+}
+
+@media (max-width: 780px) {
+  .curriculum__top {
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .curriculum__start-btn {
+    margin: 0;
+  }
+}
