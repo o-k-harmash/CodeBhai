@@ -10,14 +10,14 @@
     {{#each data}}
       <li class="curriculum__card">
         <div class="curriculum__top">
-          <a href="/curriculums/units">
+          <a href="/curriculums/{{id}}/units">
             <img
               class="img img--20"
               src="/static/assets/images/{{imgFile}}"
               alt=""
             /></a>
 
-          <a href="/curriculums/units">
+          <a href="/curriculums/{{id}}/units">
 
             <h2>{{title}}</h2>
             <div class="curriculum__units">
@@ -55,7 +55,7 @@
           </a>
           <a
             class="curriculum__start-btn button button--transpirent"
-            href="/curriculums/units"
+            href="/curriculums/{{id}}/units"
           >Start Module</a>
         </div>
         <p class="modules__description">{{description}}</p>
