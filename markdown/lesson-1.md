@@ -1,3 +1,13 @@
+---
+title: "Getting Started"
+img: "badge-javascript-43bfdf7b.svg"
+authors:
+  - name: "John Doe"
+    link: "https://example.com"
+module: "intro"
+nextLesson: "lesson-2"
+---
+
 ### Understanding Asynchronous JavaScript
 
 JavaScript is single-threaded but supports **asynchronous operations** via callbacks, promises, and `async/await`.

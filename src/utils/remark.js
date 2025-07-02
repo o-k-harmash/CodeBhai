@@ -1,7 +1,9 @@
 import { toString } from "hast-util-to-string";
+import * as yaml from "js-yaml";
 import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
 import remarkDirective from "remark-directive";
+import remarkFrontmatter from "remark-frontmatter";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import slugify from "slugify";
@@ -12,6 +14,8 @@ export default function remarkFabric() {
   const obj = {};
   const remark = unified()
     .use(remarkParse)
+    .use(remarkFrontmatter, ["yaml"])
+    .use(remarkExtractFrontmatter(obj))
     .use(remarkDirective)
     .use(remarkCustomComponents)
     .use(remarkRehype)
@@ -68,6 +72,19 @@ function rehypeCollectH3Ids(contextObj) {
       node.properties.id = id;
 
       contextObj.h3Ids.push({ text, id });
+    });
+  };
+}
+
+function remarkExtractFrontmatter(contextObj) {
+  return () => (tree) => {
+    visit(tree, "yaml", (node) => {
+      try {
+        const data = yaml.load(node.value);
+        Object.assign(contextObj, data);
+      } catch (err) {
+        throw new Error(`YAML frontmatter parse error: ${err.message}`);
+      }
     });
   };
 }

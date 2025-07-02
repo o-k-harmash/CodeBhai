@@ -6,6 +6,7 @@ import fastifyView from "@fastify/view";
 import Fastify from "fastify";
 import handlebars from "handlebars";
 import lessonRoutes from "./routes/lesson.routes.js";
+import modulesRoutes from "./routes/modules.routes.js";
 import { findFreePort } from "./utils/netstat.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,16 +25,19 @@ app.register(fastifyView, {
   },
   options: {
     partials: {
-      internalError: "internalError.hbs",
-      lesson: "lesson.hbs",
-      notFound: "notFound.hbs",
+      unit: "unit.hbs",
+      curriculum: "curriculum.hbs",
+      500: "500.hbs",
+      article: "article.hbs",
+      404: "404.hbs",
     },
   },
-  layout: path.join("layouts", "main.layout.hbs"),
+  layout: "main.hbs",
   root: path.join(__dirname, "views"),
 });
 
-app.register(lessonRoutes, { prefix: "/lessons" });
+app.register(lessonRoutes, { prefix: "/units" });
+app.register(modulesRoutes, { prefix: "/curriculums" });
 
 (async () => {
   try {

@@ -4,7 +4,6 @@ const navSidebarClose = document.getElementById("nav-sidebar-close");
 const navInlineMenu = document.getElementById("nav-inline-menu");
 
 if (navOverlay && navInlineMenu && navSidebarClose && navToggleBtn) {
-
   navToggleBtn.addEventListener("click", () => {
     show(navOverlay);
   });
@@ -13,8 +12,8 @@ if (navOverlay && navInlineMenu && navSidebarClose && navToggleBtn) {
     hide(navOverlay);
   });
 
-  const mq = window.matchMedia('(max-width: 1299px)');
-  mq.addEventListener('change', updateNavVisibility);
+  const mq = window.matchMedia("(max-width: 780px)");
+  mq.addEventListener("change", updateNavVisibility);
   window.addEventListener("DOMContentLoaded", updateNavVisibility);
 }
 
@@ -29,15 +28,15 @@ function show(el) {
 }
 
 function updateNavVisibility() {
-    const isMobile = window.innerWidth < 1300;
+  const isMobile = window.innerWidth < 780;
 
-    hide(navOverlay);
+  hide(navOverlay);
 
-    if (isMobile) {
-      show(navToggleBtn);
-      hide(navInlineMenu);
-    } else {
-      hide(navToggleBtn);
-      show(navInlineMenu);
-    }
+  if (isMobile) {
+    show(navToggleBtn);
+    hide(navInlineMenu);
+  } else {
+    hide(navToggleBtn);
+    show(navInlineMenu);
   }
+}
