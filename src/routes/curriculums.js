@@ -1,6 +1,11 @@
-import { getCurriculumsView, getUnitsView } from "../handlers/curriculums.js";
+import {
+  getArticleView,
+  getCurriculumsView,
+  getUnitsView,
+} from "../handlers/curriculums.js";
 
 export default function curriculumRoutes(fastify) {
   fastify.get("/", getCurriculumsView);
-  fastify.get("/:id/units", getUnitsView);
+  fastify.get("/:curriculumId/units", getUnitsView);
+  fastify.get("/:curriculumId/units/:articleId", getArticleView);
 }

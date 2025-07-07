@@ -43,6 +43,8 @@
 }
 
 .curriculum__unit {
+  display: flex;
+  align-items: center;
   font-size: var(--font-size-sm);
   text-transform: capitalize;
   color: var(--color-gray-450);

@@ -3,12 +3,12 @@
     <header class="article__info">
       <img
         class="img img--22"
-        src="/static/assets/images/{{data.img}}"
+        src="/static/assets/images/{{data.curriculum.imgFile}}"
         alt=""
       />
-      <div>
-        <h2>{{data.title}}</h2>
-        <p>{{data.module}}</p>
+      <div class="sticky">
+        <h2>{{data.currentArticle.title}}</h2>
+        <p>{{data.curriculum.title}}</p>
       </div>
     </header>
 
@@ -17,12 +17,14 @@
     </article>
 
     <nav class="article__nav">
-      <a class="button button--transpirent" href="/curriculums">View
-        module</a>
+      <a
+        class="button button--transpirent"
+        href="/curriculums/{{data.curriculum.id}}/units"
+      >View module</a>
       <button class="button button--green">Mark as completed</button>
       <a
         class="button button--transpirent"
-        href="/units/{{data.nextLesson}}"
+        href="/curriculums/{{data.curriculum.id}}/units/{{data.nextArticleId}}"
       >Next article</a>
     </nav>
   </div>
