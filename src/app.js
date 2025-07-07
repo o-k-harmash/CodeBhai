@@ -3,11 +3,60 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import fastifyStatic from "@fastify/static";
 import fastifyView from "@fastify/view";
+import dotenv from "dotenv";
 import Fastify from "fastify";
 import handlebars from "handlebars";
+// import prisma from "./db/prisma.js";
 import curriculumRoutes from "./routes/curriculums.js";
-import unitRoutes from "./routes/units.js";
 import { findFreePort } from "./utils/netstat.js";
+
+import "./views/helpers/renderUnitsSummary.js";
+
+import "./views/helpers/renderArticleIcon.js";
+
+dotenv.config();
+
+// async function main() {
+//   await prisma.curriculum.create({
+//     data: {
+//       id: "javascript",
+//       title: "Getting Started",
+//       description: "Introduction to core JavaScript concepts",
+//       imgFile: "badge-javascript-43bfdf7b.svg",
+//       order: 1,
+//       articles: {
+//         create: [
+//           {
+//             id: "javascript-getting-started",
+//             title: "Understanding Asynchronous JavaScript",
+//             description:
+//               "Learn how async code works in JS: callbacks, promises, and async/await.",
+//             type: "lesson",
+//             order: 1,
+//           },
+//           {
+//             id: "javascript-modules",
+//             title: "Introduction to JavaScript Modules",
+//             description:
+//               "This lesson covers the basics of ES Modules and CommonJS, explaining how to structure and import/export code effectively.",
+//             type: "project",
+//             order: 2,
+//           },
+//         ],
+//       },
+//     },
+//   });
+// }
+
+// main()
+//   .then(async () => {
+//     await prisma.$disconnect();
+//   })
+//   .catch(async (e) => {
+//     console.error(e);
+//     await prisma.$disconnect();
+//     process.exit(1);
+//   });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +85,6 @@ app.register(fastifyView, {
   root: path.join(__dirname, "views"),
 });
 
-app.register(unitRoutes, { prefix: "/units" });
 app.register(curriculumRoutes, { prefix: "/curriculums" });
 
 (async () => {

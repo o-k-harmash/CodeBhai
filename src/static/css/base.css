@@ -230,3 +230,7 @@ body {
 header {
   color: var(--color-gray-450);
 }
+
+.sticky > * {
+  margin-block-end: var(--space-1);
+}
