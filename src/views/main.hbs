@@ -28,8 +28,6 @@
       href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/stackoverflow-dark.min.css"
     />
 
-    <link rel="stylesheet" href="/static/css/modules.css" />
-    <link rel="stylesheet" href="/static/css/content.css" />
     <link rel="stylesheet" href="/static/css/curriculum.css" />
     <link rel="stylesheet" href="/static/css/unit.css" />
 
@@ -41,7 +39,7 @@
       <div class="nav__content">
         <a class="nav__logo" href="">
           {{! <img src="/static/assets/images/logo.png" alt=""> }}
-          <strong>W</strong>eb<span class="dot">.</span>bro
+          <strong>C</strong>ode<span class="dot">B</span>hai
         </a>
 
         <div id="nav-inline-menu" class="nav__inline-menu">
@@ -50,12 +48,14 @@
           <a class="nav__link" href="">support us</a>
           <div class="nav__user-panel">
             <img
+              id="nav-user-avatar"
               class="nav__avatar"
               src="/static/assets/user-profile-img.png"
               alt=""
             />
           </div>
         </div>
+
         <!-- Триггер -->
         <button
           id="nav-toggle-btn"
@@ -68,6 +68,14 @@
           <span class="nav__toggle-line"></span>
         </button>
 
+        <a
+          id="github-login-btn"
+          class="button button--green"
+          href="/auth/github"
+        >
+          Log with Git Hub
+        </a>
+
         <!-- Оверлей + меню -->
         <div id="nav-overlay" class="nav__overlay" aria-hidden="true">
           <div class="nav__sidebar">
@@ -78,14 +86,14 @@
             >×</button>
             <nav class="nav__sidebar-nav">
               <a class="nav__logo nav__sidebar-logo" href="">
-                <strong>W</strong>eb<span class="dot">.</span>bro
+                <strong>C</strong>ode<span class="dot">B</span>hai
               </a>
               <a class="nav__sidebar-link" href="/curriculums">all currticulums</a>
               <a class="nav__sidebar-link" href="">community</a>
               <a class="nav__sidebar-link" href="">support us</a>
               <hr class="nav__sidebar-separator" />
               <a class="nav__sidebar-link" href="">settings</a>
-              <a class="nav__sidebar-link" href="">sign</a>
+              <a class="nav__sidebar-link" href="/auth/github">sign</a>
             </nav>
           </div>
         </div>
@@ -115,7 +123,7 @@
           <div class="footer__socials">
             <a class="nav__logo" href="">
               {{! <img src="/static/assets/images/logo.png" alt=""> }}
-              <strong>W</strong>eb<span class="dot">.</span>bro
+              <strong>C</strong>ode<span class="dot">B</span>hai
             </a>
             <p class="footer__about">High quality coding education maintained by
               an open source community.</p>
@@ -165,6 +173,7 @@
     </footer>
 
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/article.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
     ></script>
