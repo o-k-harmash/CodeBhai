@@ -20,7 +20,7 @@
       <a
         class="button button--transpirent"
         href="/curriculums/{{data.curriculum.id}}/units"
-      >View module</a>
+      >View curriculum</a>
       <button class="button button--green">Mark as completed</button>
       <a
         class="button button--transpirent"
@@ -30,8 +30,8 @@
   </div>
 
   <aside class="aside">
-    <h4 class="aside__title">Lesson contents</h4>
-    <ul>
+    <h4 class="aside__title">Article contents</h4>
+    <ul id="h3ids">
       {{#each data.h3Ids}}
         <li class="aside__item">
           <a class="aside__link" href="#{{id}}">{{text}}</a>
