@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
+import { writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
 import axios from "axios";
-// plugins/fastifyAuthMiddleware.js
 import fp from "fastify-plugin";
 
 const GITHUB_AUTH_URL = "https://github.com/login/oauth/authorize";
@@ -46,17 +47,34 @@ function authPlugin(fastify, opts, done) {
     );
 
     const accessToken = tokenRes.data.access_token;
-    if (!accessToken)
+    if (!accessToken) {
       return reply.status(401).send({ error: "Access token not received" });
+    }
 
     const userRes = await axios.get(GITHUB_PROFILE_URL, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    const { id, avatar_url } = userRes.data;
+    const { id: userId, avatar_url } = userRes.data;
+
+    // Сохраняем аватар
+    const avatarRes = await axios.get(avatar_url, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      responseType: "arraybuffer",
+    });
+
+    const fileName = `${userId}.png`;
+    const avatarDir = resolve("static", "avatars");
+    const avatarPath = join(avatarDir, fileName);
+
+    writeFileSync(avatarPath, avatarRes.data);
+
     reply
-      .setCookie("user_id", String(id), { path: "/", httpOnly: true })
-      .setCookie("avatar", avatar_url, { path: "/" })
+      .setCookie("user_id", String(userId), { path: "/", httpOnly: true })
+      .setCookie("avatar", `/static/avatars/${fileName}`, {
+        path: "/",
+        httpOnly: false,
+      })
       .redirect("/curriculums");
   });
 

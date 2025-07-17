@@ -14,7 +14,11 @@ function createDb(logger) {
   }
 
   db = new PrismaClient({
-    log: ["query", "info", "warn", "error"], // какие события логировать
+    log: [
+      // {level: "info", emit: "event"},
+      { level: "warn", emit: "event" },
+      { level: "error", emit: "event" },
+    ],
   });
 
   // Проксируем Prisma события в свой логгер

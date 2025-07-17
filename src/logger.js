@@ -54,13 +54,14 @@ function createLogger(pathToLog) {
 
     envConfig.transport.options.destination = pathToLog;
   }
-
-  return (logger = pino(
+  logger = pino(
     {
       level: envConfig.level,
     },
     pino.transport(envConfig.transport),
-  ));
+  );
+
+  return logger;
 }
 
 export default createLogger;
