@@ -28,7 +28,7 @@ function Router(db, logger, cache) {
   };
 
   this.identifyUser = (req, reply, done) => {
-    const { userId, avatar } = req.cookies;
+    const { user_id: userId, avatar } = req.cookies;
 
     const userAgent = req.headers["user-agent"] || "";
     const isMobile =
@@ -125,7 +125,7 @@ function Router(db, logger, cache) {
         nextArticleId,
       };
 
-      await this.cache.set(cacheKey, JSON.stringify(dataView));
+      await this.cache.set(cacheKey, JSON.stringify(dataView), { EX: 3600 });
     }
 
     return reply.viewAsync("article.hbs", {
