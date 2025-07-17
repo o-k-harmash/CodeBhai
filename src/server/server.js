@@ -2,6 +2,8 @@ import process from "node:process";
 import Fastify from "fastify";
 import authPlugin from "../middlewares/authPlugin.js";
 import cookiePlugin from "../middlewares/cookiePlugin.js";
+import errorHandlerPlugin from "../middlewares/errorHandlerPlugin.js";
+import notFoundPlugin from "../middlewares/notFoundPlugin.js";
 import staticPlugin from "../middlewares/staticPlugin.js";
 import viewPlugin from "../middlewares/viewPlugin.js";
 import findFreePort from "./findFreePort.js";
@@ -40,16 +42,22 @@ function createServer(logger, router, { dirname }) {
   fastify.register(cookiePlugin);
   fastify.register(staticPlugin, { dirname });
   fastify.register(viewPlugin, { dirname });
+
   fastify.register(authPlugin, {
     client_id: process.env.GITHUB_CLIENT_ID,
     redirect_uri: "auth/github/callback",
     client_secret: process.env.GITHUB_CLIENT_SECRET,
   });
 
-  fastify.register(router.mapRoutes, { prefix: "curriculums" });
+  fastify.register(notFoundPlugin);
+  fastify.register(errorHandlerPlugin);
+
+  fastify.register(router.mapRoutes, {
+    prefix: "curriculums",
+  });
 
   server = new Server(fastify);
-
+  Object.freeze(server);
   return server;
 }
 

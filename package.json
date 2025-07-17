@@ -46,6 +46,7 @@
     "passport-github2": "^0.1.12",
     "pino": "^9.7.0",
     "pino-pretty": "^13.0.0",
+    "redis": "^5.6.0",
     "rehype-format": "^5.0.1",
     "rehype-sanitize": "^6.0.0",
     "rehype-stringify": "^10.0.1",
@@ -58,6 +59,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.15.0",
+    "autocannon": "^8.0.0",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-format": "^1.0.1",

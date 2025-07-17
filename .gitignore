@@ -1,4 +1,2 @@
 node_modules/
-/prisma/src/data
-
-/prisma/src/db/client
+/src/logs

@@ -24,7 +24,8 @@ export default function remarkFabric() {
     .use(rehypeStringify);
 
   return async (markdown) => {
-    obj.rawHtml = await remark.process(markdown);
+    const vfile = await remark.process(markdown);
+    obj.rawHtml = vfile.value;
     return obj;
   };
 }
