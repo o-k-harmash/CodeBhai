@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import axios from "axios";
 import fp from "fastify-plugin";
 
@@ -10,7 +10,7 @@ const GITHUB_PROFILE_URL = "https://api.github.com/user";
 
 function authPlugin(fastify, opts, done) {
   const { client_id, redirect_uri, scope, client_secret } = opts;
-
+  // ошибки не летят в хук еррора видимо последовательность регистрации плагинов нарушена
   fastify.get("/auth/github", async (req, reply) => {
     const state = crypto.randomBytes(16).toString("hex");
 
@@ -21,15 +21,15 @@ function authPlugin(fastify, opts, done) {
       state,
     });
 
-    reply.setCookie("oauth_state", state, { path: "/", httpOnly: true });
+    // reply.setCookie("oauth_state", state, { path: "/", httpOnly: true });
     reply.redirect(`${GITHUB_AUTH_URL}?${query.toString()}`);
   });
 
   fastify.get("/auth/github/callback", async (req, reply) => {
     const { code, state } = req.query;
-    const savedState = req.cookies.oauth_state;
+    // const savedState = req.cookies.oauth_state;
 
-    if (!code || !state || state !== savedState) {
+    if (!code || !state) {
       return reply.status(400).send({ error: "Invalid state or code" });
     }
 
@@ -57,15 +57,14 @@ function authPlugin(fastify, opts, done) {
 
     const { id: userId, avatar_url } = userRes.data;
 
-    // Сохраняем аватар
+    const fileName = `${userId}.png`;
+    const avatarDir = join("src", "static", "avatars"); // сделать норм пары через апп руты хз
+    const avatarPath = join(avatarDir, fileName);
+
     const avatarRes = await axios.get(avatar_url, {
       headers: { Authorization: `Bearer ${accessToken}` },
       responseType: "arraybuffer",
     });
-
-    const fileName = `${userId}.png`;
-    const avatarDir = resolve("static", "avatars");
-    const avatarPath = join(avatarDir, fileName);
 
     writeFileSync(avatarPath, avatarRes.data);
 

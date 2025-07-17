@@ -7,6 +7,7 @@ import notFoundPlugin from "../middlewares/notFoundPlugin.js";
 import staticPlugin from "../middlewares/staticPlugin.js";
 import viewPlugin from "../middlewares/viewPlugin.js";
 import findFreePort from "./findFreePort.js";
+import portTaken from "./portTaken.js";
 
 let server = null;
 
@@ -16,9 +17,13 @@ function Server(fastify) {
 
 Server.prototype.listen = async function listen(config = {}) {
   try {
-    const port = (await findFreePort({ range: config.portRange })) || 0;
-
-    await this.fastify.listen({ port, host: config.host ?? "0.0.0.0" });
+    const taken = await portTaken(process.env.NODE_PORT);
+    const port = taken || (await findFreePort({ range: config.portRange }));
+    // сделать порт по конфигу если свободен если нет тогда искать
+    await this.fastify.listen({
+      port: port || 0,
+      host: config.host ?? "0.0.0.0",
+    });
     const addresses = this.fastify.addresses();
     this.fastify.port = addresses[0].port;
   } catch (err) {
@@ -42,15 +47,14 @@ function createServer(logger, router, { dirname }) {
   fastify.register(cookiePlugin);
   fastify.register(staticPlugin, { dirname });
   fastify.register(viewPlugin, { dirname });
+  fastify.register(notFoundPlugin);
+  fastify.register(errorHandlerPlugin);
 
   fastify.register(authPlugin, {
     client_id: process.env.GITHUB_CLIENT_ID,
     redirect_uri: "auth/github/callback",
     client_secret: process.env.GITHUB_CLIENT_SECRET,
   });
-
-  fastify.register(notFoundPlugin);
-  fastify.register(errorHandlerPlugin);
 
   fastify.register(router.mapRoutes, {
     prefix: "curriculums",
