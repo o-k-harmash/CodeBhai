@@ -23,23 +23,6 @@
   align-items: center;
 }
 
-.markdown {
-  --span-color-base: hsl(327.46deg 95.39% 68.89%);
-  --link-color-base: hsl(211.62deg 100% 78.57%);
-  --link-color-visited: hsl(269.38deg 100% 85.77%);
-  --span-color-base: hsl(327.46deg 95.39% 68.89%);
-  --span-background: color-mix(in hsl, var(--color-gray-700) 40%, transparent);
-  --panel-background: hsl(214.98deg 31% 16.95%);
-  --tip-border-color: hsl(216.88deg 100% 59.61%);
-  --critical-border-color: hsl(356.95deg 95.91% 57.73%);
-  --important-border-color: hsl(37.14 59.43% 41.57%);
-  --warning-border-color: hsl(29.21deg 100% 42.65%);
-
-  color: var(--color-gray-300);
-  font-size: var(--font-size-base);
-  text-align: justify;
-}
-
 .aside {
   font-size: var(--font-size-sm);
   block-size: max-content;

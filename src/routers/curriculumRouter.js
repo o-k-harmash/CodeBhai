@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
+import { readFile } from 'fs/promises';
 import { join } from "node:path";
 import NotFoundError from "../errors/notFoundError.js";
 import remarkFabric from "../utils/remark.js";
@@ -28,23 +29,11 @@ function Router(db, logger, cache) {
   };
 
   this.identifyUser = (req, reply, done) => {
-    const { user_id: userId, avatar } = req.cookies;
+    const { id } = req.cookies;
 
-    const userAgent = req.headers["user-agent"] || "";
-    const isMobile =
-      /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        userAgent,
-      );
+    req.user = { id };
 
-    req.user = {
-      id: userId ?? null,
-      avatar,
-      isAuthenticated: Boolean(userId),
-      userAgent,
-      isMobile,
-    };
-
-    if (!userId) {
+    if (!id) {
       return reply.redirect("/auth/github");
     }
 
@@ -62,7 +51,6 @@ function Router(db, logger, cache) {
 
     return reply.viewAsync("unit.hbs", {
       data: viewModel,
-      user: request.user,
     });
   };
 
@@ -71,7 +59,6 @@ function Router(db, logger, cache) {
 
     return reply.viewAsync("curriculum.hbs", {
       data: viewModel,
-      user: request.user,
     });
   };
 
@@ -111,7 +98,7 @@ function Router(db, logger, cache) {
         throw new NotFoundError(`Article: ${articleId} not found`);
       }
 
-      const md = readFileSync(filePath, "utf-8");
+      const md = await readFile(filePath, { encoding: "utf-8" });
       const remark = remarkFabric();
       const mainViewModel = await remark(md);
       const nextArticleId = articles.find(
@@ -119,18 +106,20 @@ function Router(db, logger, cache) {
       )?.id;
 
       dataView = {
-        ...mainViewModel,
-        curriculum,
-        currentArticle,
+        imgFile: curriculum.imgFile,
+        curriculumId: curriculum.id,
+        title: currentArticle.title,
+        subTitle: curriculum.id,
         nextArticleId,
+        sideNav: mainViewModel.h3Ids,
+        content: mainViewModel.rawHtml,
       };
 
-      await this.cache.set(cacheKey, JSON.stringify(dataView), { EX: 3600 });
+      await this.cache.set(cacheKey, JSON.stringify(dataView), { EX: 1000 * 60 * 60 });
     }
 
     return reply.viewAsync("article.hbs", {
-      user: request.user,
-      data: dataView,
+      ...dataView,
     });
   };
 }

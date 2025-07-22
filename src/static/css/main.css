@@ -1,4 +1,5 @@
 .nav {
+  min-block-size: 62px;
   border-bottom: var(--border-width-1) solid var(--color-gray-800);
 }
 
