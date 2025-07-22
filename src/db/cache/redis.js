@@ -1,4 +1,5 @@
 import { createClient } from "redis";
+import process from "node:process";
 
 const cache = null;
 
@@ -6,7 +7,7 @@ function createCache(logger) {
   if (cache) return cache;
 
   const client = createClient({
-    url: "redis://localhost:6379",
+    url: process.env.REDIS_URL,
     socket: {
       reconnectStrategy: (retries) => {
         if (retries > 5) {

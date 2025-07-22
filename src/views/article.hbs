@@ -3,28 +3,28 @@
     <header class="article__info">
       <img
         class="img img--22"
-        src="/static/assets/images/{{data.curriculum.imgFile}}"
+        src="/static/assets/images/{{imgFile}}"
         alt=""
       />
       <div class="sticky">
-        <h2>{{data.currentArticle.title}}</h2>
-        <p>{{data.curriculum.title}}</p>
+        <h2>{{title}}</h2>
+        <p>{{subTitle}}</p>
       </div>
     </header>
 
     <article class="markdown">
-      {{{data.rawHtml}}}
+      {{{content}}}
     </article>
 
     <nav class="article__nav">
       <a
         class="button button--transpirent"
-        href="/curriculums/{{data.curriculum.id}}/units"
+        href="/curriculums/{{curriculumId}}/units"
       >View curriculum</a>
       <button class="button button--green">Mark as completed</button>
       <a
         class="button button--transpirent"
-        href="/curriculums/{{data.curriculum.id}}/units/{{data.nextArticleId}}"
+        href="/curriculums/{{curriculumId}}/units/{{nextArticleId}}"
       >Next article</a>
     </nav>
   </div>
@@ -32,7 +32,7 @@
   <aside class="aside">
     <h4 class="aside__title">Article contents</h4>
     <ul id="h3ids">
-      {{#each data.h3Ids}}
+      {{#each sideNav}}
         <li class="aside__item">
           <a class="aside__link" href="#{{id}}">{{text}}</a>
         </li>

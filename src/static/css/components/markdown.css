@@ -1,5 +1,8 @@
 .markdown {
   min-inline-size: 0;
+  color: var(--color-gray-300);
+  font-size: var(--font-size-base);
+  text-align: justify;
 }
 
 .markdown code {

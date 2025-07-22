@@ -21,7 +21,7 @@ Server.prototype.listen = async function listen(config = {}) {
     const port = taken || (await findFreePort({ range: config.portRange }));
     // сделать порт по конфигу если свободен если нет тогда искать
     await this.fastify.listen({
-      port: port || 0,
+      port: 8001,
       host: config.host ?? "0.0.0.0",
     });
     const addresses = this.fastify.addresses();
@@ -42,7 +42,7 @@ function createServer(logger, router, { dirname }) {
     process.exit(1);
   }
 
-  const fastify = Fastify({ loggerInstance: logger });
+  const fastify = Fastify({ loggerInstance: logger, disableRequestLogging: true });
 
   fastify.register(cookiePlugin);
   fastify.register(staticPlugin, { dirname });
@@ -58,6 +58,18 @@ function createServer(logger, router, { dirname }) {
 
   fastify.register(router.mapRoutes, {
     prefix: "curriculums",
+  });
+
+  fastify.get("/community", async (req, reply) => {
+    return reply.viewAsync("community.hbs");
+  });
+
+  fastify.get("/support", async (req, reply) => {
+    return reply.viewAsync("support.hbs");
+  });
+
+  fastify.get("/", async (req, reply) => {
+    return reply.viewAsync("home.hbs");
   });
 
   server = new Server(fastify);

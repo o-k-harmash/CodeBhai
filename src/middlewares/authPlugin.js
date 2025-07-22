@@ -27,7 +27,6 @@ function authPlugin(fastify, opts, done) {
 
   fastify.get("/auth/github/callback", async (req, reply) => {
     const { code, state } = req.query;
-    // const savedState = req.cookies.oauth_state;
 
     if (!code || !state) {
       return reply.status(400).send({ error: "Invalid state or code" });
@@ -55,26 +54,16 @@ function authPlugin(fastify, opts, done) {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    const { id: userId, avatar_url } = userRes.data;
-
-    const fileName = `${userId}.png`;
-    const avatarDir = join("src", "static", "avatars"); // сделать норм пары через апп руты хз
-    const avatarPath = join(avatarDir, fileName);
-
-    const avatarRes = await axios.get(avatar_url, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      responseType: "arraybuffer",
-    });
-
-    writeFileSync(avatarPath, avatarRes.data);
+    const { id, avatar_url } = userRes.data;
 
     reply
-      .setCookie("user_id", String(userId), { path: "/", httpOnly: true })
-      .setCookie("avatar", `/static/avatars/${fileName}`, {
+      .setCookie("id", String(id), { path: "/", httpOnly: true })
+      .setCookie("auth", Boolean(id), { path: "/" })
+      .setCookie("avatar", avatar_url, {
         path: "/",
-        httpOnly: false,
       })
       .redirect("/curriculums");
+
   });
 
   done();

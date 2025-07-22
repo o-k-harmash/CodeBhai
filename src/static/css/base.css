@@ -24,9 +24,7 @@
   --size-header: 3.625rem;
   --size-support: 20.0625rem;
   --size-footer: 24.375rem;
-  --size-main: calc(
-    100vh - var(--size-footer) - var(--size-support) - var(--size-header)
-  );
+  --size-main: calc(100vh - var(--size-footer) - var(--size-support) - var(--size-header));
   /* логотип / h1 */
   --size-avatar: 2.25rem;
 
@@ -85,6 +83,23 @@
   /* 2px */
   --border-width-4: 0.25rem;
   /* 4px */
+
+  --span-color-base: hsl(327.46deg 95.39% 68.89%);
+  --link-color-base: hsl(211.62deg 100% 78.57%);
+  --link-color-visited: hsl(269.38deg 100% 85.77%);
+  --span-color-base: hsl(327.46deg 95.39% 68.89%);
+  --span-background: color-mix(in hsl, var(--color-gray-700) 40%, transparent);
+  --panel-background: hsl(214.98deg 31% 16.95%);
+  --tip-border-color: hsl(216.88deg 100% 59.61%);
+  --critical-border-color: hsl(356.95deg 95.91% 57.73%);
+  --important-border-color: hsl(37.14 59.43% 41.57%);
+  --warning-border-color: hsl(29.21deg 100% 42.65%);
+}
+
+.container {
+  max-inline-size: 59rem;
+  margin-inline: auto;
+  padding: var(--space-6);
 }
 
 * {
@@ -111,6 +126,16 @@ a {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+}
+
+.link {
+  color: hsl(211.62deg 100% 78.57%);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.link:visited {
+  color: hsl(269.38deg 100% 85.77%);
 }
 
 p {
@@ -199,13 +224,15 @@ body {
 }
 
 .icon--5 {
-  inline-size: 1.25rem; /* 20px */
+  inline-size: 1.25rem;
+  /* 20px */
   block-size: 1.25rem;
   margin-inline-end: var(--space-1);
 }
 
 .icon--6 {
-  inline-size: 1.5rem; /* 24px */
+  inline-size: 1.5rem;
+  /* 24px */
   block-size: 1.5rem;
   margin-inline-end: var(--space-3);
 }
@@ -218,12 +245,14 @@ body {
 }
 
 .img--20 {
-  inline-size: 6rem; /* 80px */
+  inline-size: 6rem;
+  /* 80px */
   block-size: 6rem;
 }
 
 .img--22 {
-  inline-size: 7rem; /* 90px */
+  inline-size: 7rem;
+  /* 90px */
   block-size: 7rem;
 }
 
@@ -231,6 +260,6 @@ header {
   color: var(--color-gray-450);
 }
 
-.sticky > * {
+.sticky>* {
   margin-block-end: var(--space-1);
 }
