@@ -6,7 +6,6 @@ import errorHandlerPlugin from "../middlewares/errorHandlerPlugin.js";
 import notFoundPlugin from "../middlewares/notFoundPlugin.js";
 import staticPlugin from "../middlewares/staticPlugin.js";
 import viewPlugin from "../middlewares/viewPlugin.js";
-import findFreePort from "./findFreePort.js";
 import portTaken from "./portTaken.js";
 
 let server = null;
@@ -17,12 +16,20 @@ function Server(fastify) {
 
 Server.prototype.listen = async function listen(config = {}) {
   try {
-    const taken = await portTaken(process.env.NODE_PORT);
-    const port = taken || (await findFreePort({ range: config.portRange }));
+    const port = process.env.NODE_PORT;
+    if (!port){
+      throw new Error("Port is undefined.");
+    }
+
+    const taken = await portTaken(port);
+    if (taken){
+      throw new Error("Port is taken.");
+    }
+
     // сделать порт по конфигу если свободен если нет тогда искать
     await this.fastify.listen({
-      port: 8001,
-      host: config.host ?? "0.0.0.0",
+      port: port,
+      host: "0.0.0.0",
     });
     const addresses = this.fastify.addresses();
     this.fastify.port = addresses[0].port;
@@ -32,7 +39,7 @@ Server.prototype.listen = async function listen(config = {}) {
   }
 };
 
-function createServer(logger, router, { dirname }) {
+function createServer(logger, router, { dirname, publicDir, viewsDir }) {
   if (server) {
     return server;
   }
@@ -45,8 +52,8 @@ function createServer(logger, router, { dirname }) {
   const fastify = Fastify({ loggerInstance: logger, disableRequestLogging: true });
 
   fastify.register(cookiePlugin);
-  fastify.register(staticPlugin, { dirname });
-  fastify.register(viewPlugin, { dirname });
+  fastify.register(staticPlugin, { dirname, publicDir });
+  fastify.register(viewPlugin, { dirname, viewsDir });
   fastify.register(notFoundPlugin);
   fastify.register(errorHandlerPlugin);
 

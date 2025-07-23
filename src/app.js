@@ -7,6 +7,7 @@ import createDb from "./db/prisma.js";
 import createLogger from "./logger.js";
 import createCurriculumRouter from "./routers/curriculumRouter.js";
 import createServer from "./server/server.js";
+import seeder from "./db/seeder.js";
 import "./views/helpers/renderUnitsSummary.js";
 import "./views/helpers/renderArticleIcon.js";
 
@@ -14,28 +15,17 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const __rootDir = path.resolve(__dirname, "..");
+const __logsPath = path.join(__rootDir, "logs");
+const __publicPath = path.join(__rootDir, "public");
+const __viewsDir = path.join(__dirname, "views");
 
-const logger = createLogger(join(__dirname, "logs", "app.log"));
-logger.info("Logger initialized");
-
-const cache = await createCache(logger);
-logger.info("cache initialized");
-
-const db = createDb(logger);
-logger.info("Db initialized");
-
-const router = createCurriculumRouter(logger, db, cache);
-logger.info("Router initialized");
-
-const server = createServer(logger, router, { dirname: __dirname });
-logger.info("Server prepared for listening");
-
-server.listen();
+let logger, db, cache, router, server;
 
 process.on("SIGINT", async () => {
   logger.info("🛑 SIGINT received, shutting down...");
   try {
-    await db.$disconnect();
+    await db?.$disconnect();
     logger.info("✅ DB disconnected");
   } catch (err) {
     logger.info("❌ Error disconnecting DB:", err);
@@ -43,3 +33,31 @@ process.on("SIGINT", async () => {
     process.exit(0);
   }
 });
+
+(async function () {
+  try {
+    logger = createLogger(__logsPath);
+    logger.info("Logger initialized");
+
+    db = createDb(logger);
+    logger.info("Db initialized");
+
+    const arg = process.argv[2];
+    if (arg === "seed") {
+      await seeder(db);
+      process.exit(0);
+    }
+
+    cache = await createCache(logger);
+    logger.info("cache initialized");
+
+    router = createCurriculumRouter(logger, db, cache);
+    logger.info("Router initialized");
+
+    server = createServer(logger, router, { dirname: __rootDir, publicDir: __publicPath, viewsDir: __viewsDir });
+    await server.listen();
+  } catch (err) {
+    logger.error(err);
+    process.exit(1);
+  }
+})();
