@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync } from "node:fs";
-import { dirname } from "node:path";
+import { dirname, join } from "node:path";
 import process from "node:process";
 import pino from "pino";
 
@@ -27,7 +27,7 @@ const config = {
   },
 };
 
-function createLogger(pathToLog) {
+function createLogger(dirToLog) {
   if (logger) {
     return logger;
   }
@@ -40,17 +40,17 @@ function createLogger(pathToLog) {
     process.exit(1);
   }
 
-  if (!String(pathToLog)) {
+  if (!String(dirToLog)) {
     console.error("Undefined log directory");
     process.exit(1);
   }
 
   if (env === "production") {
-    const dirToLog = dirname(pathToLog);
-
     if (!existsSync(dirToLog)) {
       mkdirSync(dirToLog, { recursive: true });
     }
+
+    const pathToLog = join(dirToLog, "app.log");
 
     envConfig.transport.options.destination = pathToLog;
   }

@@ -20,7 +20,7 @@ function viewPlugin(fastify, opts, done) {
       },
     },
     layout: "main.hbs",
-    root: join(opts.dirname, "views"),
+    root: opts.viewsDir,
   });
   done();
 }

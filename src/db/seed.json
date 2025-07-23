@@ -1,0 +1,27 @@
+{
+  "curriculums": [
+    {
+      "id": "javascript",
+      "title": "Основы программирования",
+      "description": "Курс по базовым концепциям",
+      "imgFile": "programming-basics.svg",
+      "order": 1,
+      "articles": [
+        {
+          "id": "javascript-getting-started",
+          "title": "Введение",
+          "description": "Что такое программирование",
+          "type": "lesson",
+          "order": 1
+        },
+        {
+          "id": "javascript-modules",
+          "title": "Переменные и типы",
+          "description": "Основы переменных",
+          "type": "project",
+          "order": 2
+        }
+      ]
+    }
+  ]
+}
