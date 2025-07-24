@@ -8,15 +8,55 @@ import staticPlugin from "../middlewares/staticPlugin.js";
 import viewPlugin from "../middlewares/viewPlugin.js";
 import portTaken from "./portTaken.js";
 
-let server = null;
+export class Server {
+  constructor({ logger, router, dirname, publicDir, viewsDir }) {
+    if (
+      !logger ||
+      !router ||
+      !String(dirname) ||
+      !String(publicDir) ||
+      !String(viewsDir)
+    ) {
+      throw new Error("Config is broken");
+    }
 
-function Server(fastify) {
-  this.fastify = fastify;
-}
+    this.fastify = Fastify({
+      loggerInstance: logger,
+      disableRequestLogging: true,
+    });
 
-Server.prototype.listen = async function listen() {
-  try {
+    this.fastify.register(cookiePlugin);
+    this.fastify.register(staticPlugin, { dirname, publicDir });
+    this.fastify.register(viewPlugin, { dirname, viewsDir });
+    this.fastify.register(notFoundPlugin);
+    this.fastify.register(errorHandlerPlugin);
+
+    this.fastify.register(authPlugin, {
+      client_id: process.env.GITHUB_CLIENT_ID,
+      redirect_uri: "auth/github/callback",
+      client_secret: process.env.GITHUB_CLIENT_SECRET,
+    });
+
+    this.fastify.register(router.mapRoutes, {
+      prefix: "curriculums",
+    });
+
+    this.fastify.get("/community", async (req, reply) => {
+      return reply.viewAsync("community.hbs");
+    });
+
+    this.fastify.get("/support", async (req, reply) => {
+      return reply.viewAsync("support.hbs");
+    });
+
+    this.fastify.get("/", async (req, reply) => {
+      return reply.viewAsync("home.hbs");
+    });
+  }
+
+  async listen() {
     const port = process.env.NODE_PORT;
+
     if (!port) {
       throw new Error("Port is undefined.");
     }
@@ -26,65 +66,11 @@ Server.prototype.listen = async function listen() {
       throw new Error("Port is taken.");
     }
 
-    // сделать порт по конфигу если свободен если нет тогда искать
-    await this.fastify.listen({
-      port,
-      host: "0.0.0.0",
-    });
-    const addresses = this.fastify.addresses();
-    this.fastify.port = addresses[0].port;
-  } catch (err) {
-    this.fastify.log.error(err);
-    process.exit(1);
+    await this.fastify.listen({ port, host: "0.0.0.0" });
+
+    const addresses = this.fastify.addresses?.() || [];
+    this.fastify.port = addresses[0]?.port || port;
+
+    this.fastify.log.info(`Server started on port ${this.fastify.port}`);
   }
-};
-
-function createServer(logger, router, { dirname, publicDir, viewsDir }) {
-  if (server) {
-    return server;
-  }
-
-  if (!logger) {
-    console.error("Logger is required");
-    process.exit(1);
-  }
-
-  const fastify = Fastify({
-    loggerInstance: logger,
-    disableRequestLogging: true,
-  });
-
-  fastify.register(cookiePlugin);
-  fastify.register(staticPlugin, { dirname, publicDir });
-  fastify.register(viewPlugin, { dirname, viewsDir });
-  fastify.register(notFoundPlugin);
-  fastify.register(errorHandlerPlugin);
-
-  fastify.register(authPlugin, {
-    client_id: process.env.GITHUB_CLIENT_ID,
-    redirect_uri: "auth/github/callback",
-    client_secret: process.env.GITHUB_CLIENT_SECRET,
-  });
-
-  fastify.register(router.mapRoutes, {
-    prefix: "curriculums",
-  });
-
-  fastify.get("/community", async (req, reply) => {
-    return reply.viewAsync("community.hbs");
-  });
-
-  fastify.get("/support", async (req, reply) => {
-    return reply.viewAsync("support.hbs");
-  });
-
-  fastify.get("/", async (req, reply) => {
-    return reply.viewAsync("home.hbs");
-  });
-
-  server = new Server(fastify);
-  Object.freeze(server);
-  return server;
 }
-
-export default createServer;

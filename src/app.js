@@ -4,7 +4,7 @@ import createDb from "./db/prisma.js";
 import seeder from "./db/seeder.js";
 import { Logger } from "./logger.js";
 import { CurriculumRouter } from "./routers/СurriculumRouter.js";
-import createServer from "./server/server.js";
+import { Server } from "./server/server.js";
 import { ArticleCacheService } from "./services/ArticleCacheService.js";
 import { CurriculumService } from "./services/CurriculumService.js";
 
@@ -101,7 +101,9 @@ export class App {
   }
 
   async _initServer() {
-    this.server ??= createServer(this.logger, this.router, {
+    this.server ??= new Server({
+      logger: this.logger,
+      router: this.router,
       dirname: this.config.paths.root,
       publicDir: this.config.paths.public,
       viewsDir: this.config.paths.views,
