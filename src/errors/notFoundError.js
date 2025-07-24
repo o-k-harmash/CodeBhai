@@ -1,4 +1,4 @@
-import AppError from "./appError.js";
+import AppError from "./AppError.js";
 
 function NotFoundError(message = "Not Found") {
   const err = new AppError(message, 404);

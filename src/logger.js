@@ -1,67 +1,65 @@
 import { existsSync, mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
 import process from "node:process";
 import pino from "pino";
 
-let logger = null;
+export class Logger {
+  static instance = null;
 
-const config = {
-  production: {
-    level: "info",
-    transport: {
-      target: "pino/file",
-      options: {},
-    },
-  },
-  development: {
-    level: "debug",
-    transport: {
-      target: "pino-pretty",
-      options: {
-        colorize: true,
-        translateTime: "HH:MM:ss",
-        ignore: "pid,hostname",
-        singleLine: true,
+  static configs = {
+    production: {
+      level: "info",
+      transport: {
+        target: "pino/file",
+        options: {},
       },
     },
-  },
-};
+    development: {
+      level: "debug",
+      transport: {
+        target: "pino-pretty",
+        options: {
+          colorize: true,
+          translateTime: "HH:MM:ss",
+          ignore: "pid,hostname",
+          singleLine: true,
+        },
+      },
+    },
+  };
 
-function createLogger(dirToLog) {
-  if (logger) {
-    return logger;
-  }
-
-  const env = process.env.NODE_ENV || "development";
-
-  const envConfig = config[env];
-  if (!envConfig) {
-    console.error(`Unknown NODE_ENV: ${env}`);
-    process.exit(1);
-  }
-
-  if (!String(dirToLog)) {
-    console.error("Undefined log directory");
-    process.exit(1);
-  }
-
-  if (env === "production") {
-    if (!existsSync(dirToLog)) {
-      mkdirSync(dirToLog, { recursive: true });
+  constructor({ logsDir, logsPath }) {
+    if (Logger.instance) {
+      return Logger.instance;
     }
 
-    const pathToLog = join(dirToLog, "app.log");
+    if (!String(logsDir) || !String(logsPath)) {
+      console.error("Undefined log directory config");
+      process.exit(1);
+    }
 
-    envConfig.transport.options.destination = pathToLog;
+    const env = process.env.NODE_ENV || "development";
+
+    const config = this._getConfig(env);
+
+    if (env === "production") {
+      if (!existsSync(logsDir)) {
+        mkdirSync(logsDir, { recursive: true });
+      }
+      config.transport.options.destination = logsPath;
+    }
+
+    this.pino = pino({ level: config.level }, pino.transport(config.transport));
+
+    return this.pino;
   }
-  logger = pino(
-    {
-      level: envConfig.level,
-    },
-    pino.transport(envConfig.transport),
-  );
 
-  return logger;
+  _getConfig(env) {
+    const selected = Logger.configs[env];
+    if (!selected) {
+      console.error(`Unknown NODE_ENV: ${env}`);
+      process.exit(1);
+    }
+
+    return selected;
+  }
 }
-
-export default createLogger;

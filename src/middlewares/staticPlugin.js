@@ -1,4 +1,3 @@
-import { join } from "node:path";
 import fastifyStatic from "@fastify/static";
 // plugins/fastifyStaticMiddleware.js
 import fp from "fastify-plugin";

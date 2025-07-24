@@ -1,63 +1,115 @@
-import path, { join } from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
-import createCache from "./db/cache/redis.js";
-import createDb from "./db/prisma.js";
-import createLogger from "./logger.js";
-import createCurriculumRouter from "./routers/curriculumRouter.js";
-import createServer from "./server/server.js";
+import { CacheClient } from "./db/cache/redis.js";
+import { DatabaseClient } from "./db/Prisma.js";
 import seeder from "./db/seeder.js";
-import "./views/helpers/renderUnitsSummary.js";
-import "./views/helpers/renderArticleIcon.js";
+import { Logger } from "./Logger.js";
+import { CurriculumRouter } from "./routers/СurriculumRouter.js";
+import { Server } from "./server/Server.js";
+import { ArticleCacheService } from "./services/ArticleCacheService.js";
+import { CurriculumService } from "./services/CurriculumService.js";
 
-dotenv.config();
+export class App {
+  static instance;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const __rootDir = path.resolve(__dirname, "..");
-const __logsPath = path.join(__rootDir, "logs");
-const __publicPath = path.join(__rootDir, "public");
-const __viewsDir = path.join(__dirname, "views");
+  constructor(config) {
+    if (App.instance) return App.instance;
+    if (!new.target) throw new Error("App must be instantiated with 'new'");
 
-let logger, db, cache, router, server;
+    this.config = config;
+    this.logger = null;
+    this.db = null;
+    this.cache = null;
+    this.router = null;
+    this.server = null;
 
-process.on("SIGINT", async () => {
-  logger.info("🛑 SIGINT received, shutting down...");
-  try {
-    await db?.$disconnect();
-    logger.info("✅ DB disconnected");
-  } catch (err) {
-    logger.info("❌ Error disconnecting DB:", err);
-  } finally {
-    process.exit(0);
+    App.instance = this;
+
+    this._registerShutdownHooks();
   }
-});
 
-(async function () {
-  try {
-    logger = createLogger(__logsPath);
-    logger.info("Logger initialized");
+  _registerShutdownHooks() {
+    const shutdown = async (signalOrError) => {
+      this.logger?.info(`🛑 Shutdown initiated: ${signalOrError}`);
+      try {
+        await this.db?.disconnect?.();
+        await this.cache?.disconnect?.();
+        this.logger?.info("✅ dependences disconnected");
+      } catch (err) {
+        this.logger?.error("❌ Error during shutdown:", err);
+      } finally {
+        process.exit(0);
+      }
+    };
 
-    db = createDb(logger);
-    logger.info("Db initialized");
+    process.on("SIGINT", shutdown);
+    process.on("SIGTERM", shutdown);
+    process.on("unhandledRejection", shutdown);
+    process.on("uncaughtException", shutdown);
+  }
 
-    const arg = process.argv[2];
-    if (arg === "seed") {
-      await seeder(db);
-      process.exit(0);
+  async run(mode) {
+    try {
+      const loggerConf = {
+        logsDir: this.config.paths.logsDir,
+        logsPath: this.config.paths.logsPath,
+      };
+
+      await this._initLogger(loggerConf);
+      await this._initDb();
+
+      switch (mode) {
+        case "seed":
+          await seeder(this.db);
+          break;
+
+        case "run":
+        default:
+          await this._initCache();
+          await this._initRouter();
+          await this._initServer();
+          await this.server.listen();
+          break;
+      }
+    } catch (err) {
+      this.logger?.error(err);
+      process.exit(1);
     }
-
-    cache = await createCache(logger);
-    logger.info("cache initialized");
-
-    router = createCurriculumRouter(logger, db, cache);
-    logger.info("Router initialized");
-
-    server = createServer(logger, router, { dirname: __rootDir, publicDir: __publicPath, viewsDir: __viewsDir });
-    await server.listen();
-  } catch (err) {
-    logger.error(err);
-    process.exit(1);
   }
-})();
+
+  async _initLogger(config) {
+    this.logger ??= new Logger(config);
+    this.logger.info("Logger initialized");
+  }
+
+  async _initDb() {
+    this.db ??= new DatabaseClient(this.logger);
+    this.logger.info("DB initialized");
+  }
+
+  async _initCache() {
+    this.cache ??= new CacheClient(this.logger);
+    await this.cache.connect();
+    this.logger.info("Cache initialized");
+  }
+
+  async _initRouter() {
+    const articleCacheService = new ArticleCacheService(this.cache);
+    const curriculumService = new CurriculumService(
+      this.db,
+      articleCacheService,
+    );
+    this.router ??= new CurriculumRouter(curriculumService, this.logger);
+    this.logger.info("Router initialized");
+  }
+
+  async _initServer() {
+    this.server ??= new Server({
+      logger: this.logger,
+      router: this.router,
+      dirname: this.config.paths.root,
+      publicDir: this.config.paths.public,
+      viewsDir: this.config.paths.views,
+    });
+    this.logger.info("Server initialized");
+  }
+}

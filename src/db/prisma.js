@@ -1,52 +1,56 @@
-import process from "node:process";
 import { PrismaClient } from "@prisma/client";
 
-let db = null;
+export class DatabaseClient {
+  static instance = null;
 
-function createDb(logger) {
-  if (db) {
-    return db;
+  constructor(logger) {
+    if (DatabaseClient.instance) return DatabaseClient.instance;
+
+    if (!logger) {
+      throw new Error("Logger is required for DatabaseClient");
+    }
+
+    this.logger = logger;
+    this.client = new PrismaClient({
+      log: [
+        { level: "warn", emit: "event" },
+        { level: "error", emit: "event" },
+      ],
+    });
+
+    this._registerEvents();
+    DatabaseClient.instance = this;
+
+    return this.client;
   }
 
-  if (!logger) {
-    console.error("Logger is required");
-    process.exit(1);
+  _registerEvents() {
+    this.client.$on("query", (e) => {
+      this.logger.debug(
+        {
+          type: "query",
+          query: e.query,
+          params: e.params,
+          duration: e.duration,
+        },
+        "Prisma query",
+      );
+    });
+
+    this.client.$on("info", (e) => {
+      this.logger.info({ message: e.message }, "Prisma info");
+    });
+
+    this.client.$on("warn", (e) => {
+      this.logger.warn({ message: e.message }, "Prisma warning");
+    });
+
+    this.client.$on("error", (e) => {
+      this.logger.error({ message: e.message }, "Prisma error");
+    });
   }
 
-  db = new PrismaClient({
-    log: [
-      // {level: "info", emit: "event"},
-      { level: "warn", emit: "event" },
-      { level: "error", emit: "event" },
-    ],
-  });
-
-  // Проксируем Prisma события в свой логгер
-  db.$on("query", (e) => {
-    logger.debug(
-      {
-        type: "query",
-        query: e.query,
-        params: e.params,
-        duration: e.duration,
-      },
-      "Prisma query",
-    );
-  });
-
-  db.$on("info", (e) => {
-    logger.info({ message: e.message }, "Prisma info");
-  });
-
-  db.$on("warn", (e) => {
-    logger.warn({ message: e.message }, "Prisma warning");
-  });
-
-  db.$on("error", (e) => {
-    logger.error({ message: e.message }, "Prisma error");
-  });
-
-  return db;
+  async disconnect() {
+    await this.client.$disconnect();
+  }
 }
-
-export default createDb;
