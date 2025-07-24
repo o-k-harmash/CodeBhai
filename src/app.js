@@ -1,63 +1,95 @@
-import path, { join } from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
 import createCache from "./db/cache/redis.js";
 import createDb from "./db/prisma.js";
 import createLogger from "./logger.js";
 import createCurriculumRouter from "./routers/curriculumRouter.js";
 import createServer from "./server/server.js";
 import seeder from "./db/seeder.js";
-import "./views/helpers/renderUnitsSummary.js";
-import "./views/helpers/renderArticleIcon.js";
 
-dotenv.config();
+export class App {
+  static instance;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const __rootDir = path.resolve(__dirname, "..");
-const __logsPath = path.join(__rootDir, "logs");
-const __publicPath = path.join(__rootDir, "public");
-const __viewsDir = path.join(__dirname, "views");
+  constructor(config) {
+    if (App.instance) return App.instance;
+    if (!new.target) throw new Error("App must be instantiated with 'new'");
 
-let logger, db, cache, router, server;
+    this.config = config;
+    this.logger = null;
+    this.db = null;
+    this.cache = null;
+    this.router = null;
+    this.server = null;
 
-process.on("SIGINT", async () => {
-  logger.info("🛑 SIGINT received, shutting down...");
-  try {
-    await db?.$disconnect();
-    logger.info("✅ DB disconnected");
-  } catch (err) {
-    logger.info("❌ Error disconnecting DB:", err);
-  } finally {
-    process.exit(0);
+    App.instance = this;
+
+    this._registerShutdownHooks();
   }
-});
 
-(async function () {
-  try {
-    logger = createLogger(__logsPath);
-    logger.info("Logger initialized");
+  _registerShutdownHooks() {
+    const shutdown = async (signalOrError) => {
+      this.logger?.info(`🛑 Shutdown initiated: ${signalOrError}`);
+      try {
+        await this.db?.$disconnect?.();
+        this.logger?.info("✅ DB disconnected");
+      } catch (err) {
+        this.logger?.error("❌ Error during shutdown:", err);
+      } finally {
+        process.exit(0);
+      }
+    };
 
-    db = createDb(logger);
-    logger.info("Db initialized");
+    process.on("SIGINT", shutdown);
+    process.on("SIGTERM", shutdown);
+    process.on("unhandledRejection", shutdown);
+    process.on("uncaughtException", shutdown);
+  }
 
-    const arg = process.argv[2];
-    if (arg === "seed") {
-      await seeder(db);
-      process.exit(0);
+  async run(mode) {
+    switch (mode) {
+      case "seed":
+        await this._initLogger();
+        await this._initDb();
+        await seeder(this.db);
+        break;
+
+      case "run":
+      default:
+        await this._initLogger();
+        await this._initDb();
+        await this._initCache();
+        await this._initRouter();
+        await this._initServer();
+        await this.server.listen();
+        break;
     }
-
-    cache = await createCache(logger);
-    logger.info("cache initialized");
-
-    router = createCurriculumRouter(logger, db, cache);
-    logger.info("Router initialized");
-
-    server = createServer(logger, router, { dirname: __rootDir, publicDir: __publicPath, viewsDir: __viewsDir });
-    await server.listen();
-  } catch (err) {
-    logger.error(err);
-    process.exit(1);
   }
-})();
+
+  async _initLogger() {
+    this.logger ??= createLogger(this.config.paths.logs);
+    this.logger.info("Logger initialized");
+  }
+
+  async _initDb() {
+    this.db ??= createDb(this.logger);
+    this.logger.info("DB initialized");
+  }
+
+  async _initCache() {
+    this.cache ??= await createCache(this.logger);
+    this.logger.info("Cache initialized");
+  }
+
+  async _initRouter() {
+    this.router ??= createCurriculumRouter(this.logger, this.db, this.cache);
+    this.logger.info("Router initialized");
+  }
+
+  async _initServer() {
+    this.server ??= createServer(this.logger, this.router, {
+      dirname: this.config.paths.root,
+      publicDir: this.config.paths.public,
+      viewsDir: this.config.paths.views,
+    });
+    this.logger.info("Server initialized");
+  }
+}

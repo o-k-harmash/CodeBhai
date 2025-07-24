@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/o-k-harmash/web.bro/issues"
   },
-  "main": "./src/app.js",
+  "main": "./src/index.js",
   "scripts": {
     "format:fix": "eslint --fix && npx prettier . --write",
     "pretify:fix": "npx prettier . --write",
