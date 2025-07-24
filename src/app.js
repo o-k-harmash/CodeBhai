@@ -1,7 +1,7 @@
 import process from "node:process";
 import createCache from "./db/cache/redis.js";
 import createDb from "./db/prisma.js";
-import createLogger from "./logger.js";
+import { Logger } from "./logger.js";
 import createCurriculumRouter from "./routers/curriculumRouter.js";
 import createServer from "./server/server.js";
 import seeder from "./db/seeder.js";
@@ -45,27 +45,37 @@ export class App {
   }
 
   async run(mode) {
-    switch (mode) {
-      case "seed":
-        await this._initLogger();
-        await this._initDb();
-        await seeder(this.db);
-        break;
+    try {
+      const loggerConf = {
+        logsDir: this.config.paths.logsDir,
+        logsPath: this.config.paths.logsPath
+      };
 
-      case "run":
-      default:
-        await this._initLogger();
-        await this._initDb();
-        await this._initCache();
-        await this._initRouter();
-        await this._initServer();
-        await this.server.listen();
-        break;
+      await this._initLogger(loggerConf);
+      await this._initDb();
+
+      switch (mode) {
+        case "seed":
+          await seeder(this.db);
+          break;
+
+        case "run":
+        default:
+          await this._initCache();
+          await this._initRouter();
+          await this._initServer();
+          await this.server.listen();
+          break;
+      }
+    } catch (err) {
+      this.logger?.error(err);
+      console.log(err);
+      process.exit(1);
     }
   }
 
-  async _initLogger() {
-    this.logger ??= createLogger(this.config.paths.logs);
+  async _initLogger(config) {
+    this.logger ??= new Logger(config);
     this.logger.info("Logger initialized");
   }
 

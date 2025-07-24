@@ -15,7 +15,8 @@ const __rootDir = path.resolve(__dirname, "..");
 const config = {
     paths: {
         root: __rootDir,
-        logs: path.join(__rootDir, "logs"),
+        logsDir: path.join(__rootDir, "logs"),
+        logsPath: path.join(__rootDir, "logs", "app.log"),
         public: path.join(__rootDir, "public"),
         views: path.join(__dirname, "views"),
     },
