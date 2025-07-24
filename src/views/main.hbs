@@ -34,76 +34,7 @@
   </head>
 
   <body>
-    {{! очень жирное место навигация - валит запросы }}
-    <nav class="nav">
-      <div id="nav-content" class="nav__content hidden" aria-hidden="true">
-        <a class="nav__logo" href="/">
-          {{! <img src="/static/assets/images/logo.png" alt=""> }}
-          <strong>C</strong>ode<span class="dot">B</span>hai
-        </a>
-
-        <div id="nav-inline-menu" class="nav__inline-menu">
-          <a class="nav__link" href="/">home</a>
-          <a class="nav__link" href="/curriculums">all curriculums</a>
-          <a class="nav__link" href="/community">community</a>
-          <a class="nav__link" href="/support">support us</a>
-
-          <div id="avatar" class="nav__user-panel">
-            <img id="nav-user-avatar" class="nav__avatar" />
-          </div>
-
-          <a
-            id="github-login-btn"
-            class="button button--green"
-            href="/auth/github"
-          >
-            Log with Git Hub
-          </a>
-        </div>
-
-        <!-- Триггер -->
-        <button
-          id="nav-toggle-btn"
-          class="nav__toggle-btn"
-          aria-label="Открыть меню"
-          aria-hidden="false"
-        >
-          <span class="nav__toggle-line"></span>
-          <span class="nav__toggle-line"></span>
-          <span class="nav__toggle-line"></span>
-        </button>
-
-        <!-- Оверлей + меню -->
-        <div id="nav-overlay" class="nav__overlay hidden" aria-hidden="true">
-          <div class="nav__sidebar">
-            <button
-              id="nav-sidebar-close"
-              class="nav__sidebar-close"
-              aria-label="Закрыть меню"
-            >×</button>
-            <nav class="nav__sidebar-nav">
-              <a class="nav__logo nav__sidebar-logo" href="">
-                <strong>C</strong>ode<span class="dot">B</span>hai
-              </a>
-              <a class="nav__sidebar-link" href="/">home</a>
-              <a class="nav__sidebar-link" href="/curriculums">all curriculums</a>
-              <a class="nav__sidebar-link" href="">community</a>
-              <a class="nav__sidebar-link" href="">support us</a>
-              <hr class="nav__sidebar-separator" />
-              <a
-                id="login-link"
-                class="nav__sidebar-link"
-                href="/auth/github"
-              >login</a>
-              <a
-                id="logout-link"
-                class="nav__sidebar-link"
-                href="/auth/github/logout"
-              >logout</a>
-            </nav>
-          </div>
-        </div>
-      </div>
+    <nav id="nav" class="nav">
     </nav>
 
     <main class="main">
@@ -177,7 +108,7 @@
       </div>
     </footer>
 
-    <script src="/static/js/main.js"></script>
+    <script type="module" src="/static/js/index.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
     ></script>
