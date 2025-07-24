@@ -1,4 +1,4 @@
-import AppError from "./appError.js";
+import AppError from "./AppError.js";
 
 function BadRequestError(message = "Bad Request") {
   const err = new AppError(message, 400);

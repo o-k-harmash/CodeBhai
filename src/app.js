@@ -1,10 +1,10 @@
 import process from "node:process";
 import createCache from "./db/cache/redis.js";
-import createDb from "./db/prisma.js";
+import createDb from "./db/Prisma.js";
 import seeder from "./db/seeder.js";
-import { Logger } from "./logger.js";
+import { Logger } from "./Logger.js";
 import { CurriculumRouter } from "./routers/СurriculumRouter.js";
-import { Server } from "./server/server.js";
+import { Server } from "./server/Server.js";
 import { ArticleCacheService } from "./services/ArticleCacheService.js";
 import { CurriculumService } from "./services/CurriculumService.js";
 

@@ -1,4 +1,4 @@
-import AppError from "./appError.js";
+import AppError from "./AppError.js";
 
 function UnauthorizedError(message = "Unauthorized") {
   const err = new AppError(message, 401);

@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises"; // fs/promises for readFile
 import { join } from "node:path";
-import NotFoundError from "../errors/notFoundError.js"; // или свой класс ошибки
+import NotFoundError from "../errors/NotFoundError.js"; // или свой класс ошибки
 import { RemarkService } from "./RemarkService.js"; // рендер markdown
 
 export class CurriculumService {
@@ -34,7 +34,7 @@ export class CurriculumService {
         },
       },
     });
-    
+
     if (!curriculum) {
         throw new NotFoundError("Curriculum not found");
     }

@@ -2,7 +2,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
-import { App } from "./app.js";
+import { App } from "./App.js";
 import "./views/helpers/renderUnitsSummary.js";
 import "./views/helpers/renderArticleIcon.js";
 
