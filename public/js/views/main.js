@@ -5,19 +5,19 @@ export function renderNavbar(nav, state) {
     return;
   }
 
+  nav.innerHTML = navbarTemplate(state);
+
   const overlay = nav.querySelector("#nav-overlay");
 
   const toggle = nav.querySelector("#nav-toggle-btn");
-  toggle.addEventListener("click", () => {
+  toggle?.addEventListener("click", () => {
     show(overlay);
   });
 
   const close = nav.querySelector("#nav-sidebar-close");
-  close.addEventListener("click", () => {
+  close?.addEventListener("click", () => {
     hide(overlay);
   });
-
-  nav.innerHTML = navbarTemplate(state);
 }
 
 function navbarTemplate(state) {
@@ -39,7 +39,7 @@ function navbarTemplate(state) {
       <span class="nav__toggle-line"></span>
       <span class="nav__toggle-line"></span>
     </button>
-    <div id="nav-overlay" class="nav__overlay" hidden>
+    <div id="nav-overlay" class="nav__overlay hidden" aria-hidden=true>
       <div class="nav__sidebar">
         <button id="nav-sidebar-close" class="nav__sidebar-close" aria-label="Закрыть меню">×</button>
         <nav class="nav__sidebar-nav">
@@ -66,11 +66,9 @@ function navbarTemplate(state) {
     </div>`;
 
   return `
-    <div id="nav-content" class="nav__content">
       <a class="nav__logo" href="/">
         <strong>C</strong>ode<span class="dot">B</span>hai
       </a>
       ${state.isMobile ? sidebar : inlineMenu}
-    </div>
   `;
 }
