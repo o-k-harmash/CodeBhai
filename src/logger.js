@@ -48,10 +48,7 @@ export class Logger {
       config.transport.options.destination = logsPath;
     }
 
-    this.pino = pino(
-      { level: config.level },
-      pino.transport(config.transport),
-    );
+    this.pino = pino({ level: config.level }, pino.transport(config.transport));
 
     return this.pino;
   }

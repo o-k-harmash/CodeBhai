@@ -14,21 +14,21 @@ function Server(fastify) {
   this.fastify = fastify;
 }
 
-Server.prototype.listen = async function listen(config = {}) {
+Server.prototype.listen = async function listen() {
   try {
     const port = process.env.NODE_PORT;
-    if (!port){
+    if (!port) {
       throw new Error("Port is undefined.");
     }
 
     const taken = await portTaken(port);
-    if (taken){
+    if (taken) {
       throw new Error("Port is taken.");
     }
 
     // сделать порт по конфигу если свободен если нет тогда искать
     await this.fastify.listen({
-      port: port,
+      port,
       host: "0.0.0.0",
     });
     const addresses = this.fastify.addresses();
@@ -49,7 +49,10 @@ function createServer(logger, router, { dirname, publicDir, viewsDir }) {
     process.exit(1);
   }
 
-  const fastify = Fastify({ loggerInstance: logger, disableRequestLogging: true });
+  const fastify = Fastify({
+    loggerInstance: logger,
+    disableRequestLogging: true,
+  });
 
   fastify.register(cookiePlugin);
   fastify.register(staticPlugin, { dirname, publicDir });

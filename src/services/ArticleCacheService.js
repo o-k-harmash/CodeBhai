@@ -15,10 +15,8 @@ export class ArticleCacheService {
   }
 
   async set(articleId, data) {
-    await this.cache.set(
-      this._getKey(articleId),
-      JSON.stringify(data),
-      { EX: CACHE_TTL_SECONDS }
-    );
+    await this.cache.set(this._getKey(articleId), JSON.stringify(data), {
+      EX: CACHE_TTL_SECONDS,
+    });
   }
 }

@@ -1,12 +1,12 @@
 import process from "node:process";
 import createCache from "./db/cache/redis.js";
 import createDb from "./db/prisma.js";
+import seeder from "./db/seeder.js";
 import { Logger } from "./logger.js";
 import { CurriculumRouter } from "./routers/СurriculumRouter.js";
-import { ArticleCacheService } from "./services/ArticleCacheService.js";
-import { CurriculumService } from "./services/CurriculumService.js"
 import createServer from "./server/server.js";
-import seeder from "./db/seeder.js";
+import { ArticleCacheService } from "./services/ArticleCacheService.js";
+import { CurriculumService } from "./services/CurriculumService.js";
 
 export class App {
   static instance;
@@ -50,7 +50,7 @@ export class App {
     try {
       const loggerConf = {
         logsDir: this.config.paths.logsDir,
-        logsPath: this.config.paths.logsPath
+        logsPath: this.config.paths.logsPath,
       };
 
       await this._initLogger(loggerConf);
@@ -71,7 +71,6 @@ export class App {
       }
     } catch (err) {
       this.logger?.error(err);
-      console.log(err);
       process.exit(1);
     }
   }
@@ -93,7 +92,10 @@ export class App {
 
   async _initRouter() {
     const articleCacheService = new ArticleCacheService(this.cache);
-    const curriculumService = new CurriculumService(this.db, articleCacheService);
+    const curriculumService = new CurriculumService(
+      this.db,
+      articleCacheService,
+    );
     this.router ??= new CurriculumRouter(curriculumService, this.logger);
     this.logger.info("Router initialized");
   }

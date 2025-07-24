@@ -1,5 +1,5 @@
-import { createClient } from "redis";
 import process from "node:process";
+import { createClient } from "redis";
 
 const cache = null;
 

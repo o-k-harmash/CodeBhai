@@ -24,7 +24,9 @@
   --size-header: 3.625rem;
   --size-support: 20.0625rem;
   --size-footer: 24.375rem;
-  --size-main: calc(100vh - var(--size-footer) - var(--size-support) - var(--size-header));
+  --size-main: calc(
+    100vh - var(--size-footer) - var(--size-support) - var(--size-header)
+  );
   /* логотип / h1 */
   --size-avatar: 2.25rem;
 
@@ -260,6 +262,6 @@ header {
   color: var(--color-gray-450);
 }
 
-.sticky>* {
+.sticky > * {
   margin-block-end: var(--space-1);
 }

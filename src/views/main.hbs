@@ -1,165 +1,195 @@
 <html lang="en">
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-    rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-    rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-  <link href="/static/css/base.css" rel="stylesheet" />
-  <link href="/static/css/main.css" rel="stylesheet" />
-  <link href="/static/css/article.css" rel="stylesheet" />
-  <link href="/static/css/500.css" rel="stylesheet" />
-  <link href="/static/css/components/markdown.css" rel="stylesheet" />
-  <link href="/static/css/components/button.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/stackoverflow-dark.min.css" />
+    <link href="/static/css/base.css" rel="stylesheet" />
+    <link href="/static/css/main.css" rel="stylesheet" />
+    <link href="/static/css/article.css" rel="stylesheet" />
+    <link href="/static/css/500.css" rel="stylesheet" />
+    <link href="/static/css/components/markdown.css" rel="stylesheet" />
+    <link href="/static/css/components/button.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/stackoverflow-dark.min.css"
+    />
 
-  <link rel="stylesheet" href="/static/css/curriculum.css" />
-  <link rel="stylesheet" href="/static/css/unit.css" />
+    <link rel="stylesheet" href="/static/css/curriculum.css" />
+    <link rel="stylesheet" href="/static/css/unit.css" />
 
-</head>
+  </head>
 
-<body>
-  {{!-- очень жирное место навигация - валит запросы --}}
-  <nav class="nav">
-    <div id="nav-content" class="nav__content hidden" aria-hidden="true">
-      <a class="nav__logo" href="/">
-        {{! <img src="/static/assets/images/logo.png" alt=""> }}
-        <strong>C</strong>ode<span class="dot">B</span>hai
-      </a>
+  <body>
+    {{! очень жирное место навигация - валит запросы }}
+    <nav class="nav">
+      <div id="nav-content" class="nav__content hidden" aria-hidden="true">
+        <a class="nav__logo" href="/">
+          {{! <img src="/static/assets/images/logo.png" alt=""> }}
+          <strong>C</strong>ode<span class="dot">B</span>hai
+        </a>
 
-      <div id="nav-inline-menu" class="nav__inline-menu">
-        <a class="nav__link" href="/">home</a>
-        <a class="nav__link" href="/curriculums">all curriculums</a>
-        <a class="nav__link" href="/community">community</a>
-        <a class="nav__link" href="/support">support us</a>
+        <div id="nav-inline-menu" class="nav__inline-menu">
+          <a class="nav__link" href="/">home</a>
+          <a class="nav__link" href="/curriculums">all curriculums</a>
+          <a class="nav__link" href="/community">community</a>
+          <a class="nav__link" href="/support">support us</a>
 
-        <div id="avatar" class="nav__user-panel">
-          <img id="nav-user-avatar" class="nav__avatar" />
+          <div id="avatar" class="nav__user-panel">
+            <img id="nav-user-avatar" class="nav__avatar" />
+          </div>
+
+          <a
+            id="github-login-btn"
+            class="button button--green"
+            href="/auth/github"
+          >
+            Log with Git Hub
+          </a>
         </div>
 
-        <a id="github-login-btn" class="button button--green" href="/auth/github">
-          Log with Git Hub
-        </a>
+        <!-- Триггер -->
+        <button
+          id="nav-toggle-btn"
+          class="nav__toggle-btn"
+          aria-label="Открыть меню"
+          aria-hidden="false"
+        >
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+
+        <!-- Оверлей + меню -->
+        <div id="nav-overlay" class="nav__overlay hidden" aria-hidden="true">
+          <div class="nav__sidebar">
+            <button
+              id="nav-sidebar-close"
+              class="nav__sidebar-close"
+              aria-label="Закрыть меню"
+            >×</button>
+            <nav class="nav__sidebar-nav">
+              <a class="nav__logo nav__sidebar-logo" href="">
+                <strong>C</strong>ode<span class="dot">B</span>hai
+              </a>
+              <a class="nav__sidebar-link" href="/">home</a>
+              <a class="nav__sidebar-link" href="/curriculums">all curriculums</a>
+              <a class="nav__sidebar-link" href="">community</a>
+              <a class="nav__sidebar-link" href="">support us</a>
+              <hr class="nav__sidebar-separator" />
+              <a
+                id="login-link"
+                class="nav__sidebar-link"
+                href="/auth/github"
+              >login</a>
+              <a
+                id="logout-link"
+                class="nav__sidebar-link"
+                href="/auth/github/logout"
+              >logout</a>
+            </nav>
+          </div>
+        </div>
       </div>
+    </nav>
 
-      <!-- Триггер -->
-      <button id="nav-toggle-btn" class="nav__toggle-btn" aria-label="Открыть меню" aria-hidden="false">
-        <span class="nav__toggle-line"></span>
-        <span class="nav__toggle-line"></span>
-        <span class="nav__toggle-line"></span>
-      </button>
+    <main class="main">
+      {{{body}}}
+    </main>
 
-      <!-- Оверлей + меню -->
-      <div id="nav-overlay" class="nav__overlay hidden" aria-hidden="true">
-        <div class="nav__sidebar">
-          <button id="nav-sidebar-close" class="nav__sidebar-close" aria-label="Закрыть меню">×</button>
-          <nav class="nav__sidebar-nav">
-            <a class="nav__logo nav__sidebar-logo" href="">
+    <section class="support">
+      <div class="support__content">
+        <h1 class="support__title">Support us!</h1>
+        <p class="support__description">The Web.bro Project is funded by the
+          community. Join us in empowering learners around the globe by
+          supporting The Web.bro Project!</p>
+        <div class="support__actions">
+          <a class="button button--transpirent" href="">Learn more</a>
+          <a class="button button--green" href="">Donate now</a>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="footer__content">
+        <nav class="footer__nav">
+          <div class="footer__socials">
+            <a class="nav__logo" href="/">
+              {{! <img src="/static/assets/images/logo.png" alt=""> }}
               <strong>C</strong>ode<span class="dot">B</span>hai
             </a>
-            <a class="nav__sidebar-link" href="/">home</a>
-            <a class="nav__sidebar-link" href="/curriculums">all curriculums</a>
-            <a class="nav__sidebar-link" href="">community</a>
-            <a class="nav__sidebar-link" href="">support us</a>
-            <hr class="nav__sidebar-separator" />
-            <a id="login-link" class="nav__sidebar-link" href="/auth/github">login</a>
-            <a id="logout-link" class="nav__sidebar-link" href="/auth/github/logout">logout</a>
-          </nav>
+            <p class="footer__about">High quality coding education maintained by
+              an open source community.</p>
+            <div class="footer__socials-links">
+
+            </div>
+          </div>
+          <div class="footer__resources">
+            <div class="footer__block">
+              <h5>About us</h5>
+              <ul>
+                <li><a class="footer__link" href="">About</a></li>
+                <li><a class="footer__link" href="">Team</a></li>
+                <li><a class="footer__link" href="">Blog</a></li>
+                <li><a class="footer__link" href="">Success stories</a></li>
+              </ul>
+            </div>
+            <div class="footer__block">
+              <h5>Support</h5>
+              <ul>
+                <li><a class="footer__link" href="">FAQ</a></li>
+                <li><a class="footer__link" href="">Contribute</a></li>
+                <li><a class="footer__link" href="">Contact us</a></li>
+              </ul>
+            </div>
+            <div class="footer__block">
+              <h5>Guides</h5>
+              <ul>
+                <li><a class="footer__link" href="">Community guides</a></li>
+                <li><a class="footer__link" href="">Installation guides</a></li>
+              </ul>
+            </div>
+            <div class="footer__block">
+              <h5>Legal</h5>
+              <ul>
+                <li><a class="footer__link" href="">Terms</a></li>
+                <li><a class="footer__link" href="">Privacy</a></li>
+              </ul>
+
+            </div>
+          </div>
+        </nav>
+        <div class="footer__copyrating">
+          © 2025 The Web.bro Project. All rights reserved.
         </div>
       </div>
-    </div>
-  </nav>
+    </footer>
 
-  <main class="main">
-    {{{body}}}
-  </main>
+    <script src="/static/js/main.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
+    ></script>
 
-  <section class="support">
-    <div class="support__content">
-      <h1 class="support__title">Support us!</h1>
-      <p class="support__description">The Web.bro Project is funded by the
-        community. Join us in empowering learners around the globe by
-        supporting The Web.bro Project!</p>
-      <div class="support__actions">
-        <a class="button button--transpirent" href="">Learn more</a>
-        <a class="button button--green" href="">Donate now</a>
-      </div>
-    </div>
-  </section>
-  <footer class="footer">
-    <div class="footer__content">
-      <nav class="footer__nav">
-        <div class="footer__socials">
-          <a class="nav__logo" href="/">
-            {{! <img src="/static/assets/images/logo.png" alt=""> }}
-            <strong>C</strong>ode<span class="dot">B</span>hai
-          </a>
-          <p class="footer__about">High quality coding education maintained by
-            an open source community.</p>
-          <div class="footer__socials-links">
+    <!-- and it's easy to individually load additional languages -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js"
+    ></script>
 
-          </div>
-        </div>
-        <div class="footer__resources">
-          <div class="footer__block">
-            <h5>About us</h5>
-            <ul>
-              <li><a class="footer__link" href="">About</a></li>
-              <li><a class="footer__link" href="">Team</a></li>
-              <li><a class="footer__link" href="">Blog</a></li>
-              <li><a class="footer__link" href="">Success stories</a></li>
-            </ul>
-          </div>
-          <div class="footer__block">
-            <h5>Support</h5>
-            <ul>
-              <li><a class="footer__link" href="">FAQ</a></li>
-              <li><a class="footer__link" href="">Contribute</a></li>
-              <li><a class="footer__link" href="">Contact us</a></li>
-            </ul>
-          </div>
-          <div class="footer__block">
-            <h5>Guides</h5>
-            <ul>
-              <li><a class="footer__link" href="">Community guides</a></li>
-              <li><a class="footer__link" href="">Installation guides</a></li>
-            </ul>
-          </div>
-          <div class="footer__block">
-            <h5>Legal</h5>
-            <ul>
-              <li><a class="footer__link" href="">Terms</a></li>
-              <li><a class="footer__link" href="">Privacy</a></li>
-            </ul>
-
-          </div>
-        </div>
-      </nav>
-      <div class="footer__copyrating">
-        © 2025 The Web.bro Project. All rights reserved.
-      </div>
-    </div>
-  </footer>
-
-  <script src="/static/js/main.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-
-  <!-- and it's easy to individually load additional languages -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js"></script>
-
-  <script>
-    hljs.highlightAll();
-  </script>
-</body>
+    <script>
+      hljs.highlightAll();
+    </script>
+  </body>
 
 </html>

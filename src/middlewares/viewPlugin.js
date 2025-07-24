@@ -1,4 +1,3 @@
-import { join } from "node:path";
 import fastifyView from "@fastify/view";
 // plugins/fastifyViewMiddleware.js
 import fp from "fastify-plugin";

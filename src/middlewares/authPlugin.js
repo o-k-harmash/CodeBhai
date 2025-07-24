@@ -1,6 +1,4 @@
 import crypto from "node:crypto";
-import { writeFileSync } from "node:fs";
-import { join } from "node:path";
 import axios from "axios";
 import fp from "fastify-plugin";
 
@@ -63,7 +61,6 @@ function authPlugin(fastify, opts, done) {
         path: "/",
       })
       .redirect("/curriculums");
-
   });
 
   done();

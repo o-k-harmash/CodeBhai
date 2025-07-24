@@ -19,29 +19,32 @@ export class CurriculumRouter {
       preHandler: this.identifyUser,
       handler: this.getArticleView,
     });
-  }
+  };
 
   identifyUser = (req, reply, done) => {
     const { id } = req.cookies;
     req.user = { id };
     if (!id) return reply.redirect("/auth/github");
     done();
-  }
+  };
 
   getCurriculumsView = async (req, reply) => {
     const data = await this.curriculumService.getCurriculumsView();
     return reply.viewAsync("curriculum.hbs", { data });
-  }
+  };
 
   getUnitsView = async (req, reply) => {
     const { curriculumId } = req.params;
     const data = await this.curriculumService.getUnitsView(curriculumId);
     return reply.viewAsync("unit.hbs", { data });
-  }
+  };
 
   getArticleView = async (req, reply) => {
     const { curriculumId, articleId } = req.params;
-    const data = await this.curriculumService.getArticleView(curriculumId, articleId);
+    const data = await this.curriculumService.getArticleView(
+      curriculumId,
+      articleId,
+    );
     return reply.viewAsync("article.hbs", { ...data });
-  }
+  };
 }
