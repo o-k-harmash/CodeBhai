@@ -2,7 +2,9 @@ import process from "node:process";
 import createCache from "./db/cache/redis.js";
 import createDb from "./db/prisma.js";
 import { Logger } from "./logger.js";
-import createCurriculumRouter from "./routers/curriculumRouter.js";
+import { CurriculumRouter } from "./routers/СurriculumRouter.js";
+import { ArticleCacheService } from "./services/ArticleCacheService.js";
+import { CurriculumService } from "./services/CurriculumService.js"
 import createServer from "./server/server.js";
 import seeder from "./db/seeder.js";
 
@@ -90,7 +92,9 @@ export class App {
   }
 
   async _initRouter() {
-    this.router ??= createCurriculumRouter(this.logger, this.db, this.cache);
+    const articleCacheService = new ArticleCacheService(this.cache);
+    const curriculumService = new CurriculumService(this.db, articleCacheService);
+    this.router ??= new CurriculumRouter(curriculumService, this.logger);
     this.logger.info("Router initialized");
   }
 
