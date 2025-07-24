@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises"; // fs/promises for readFile
 import { join } from "node:path";
 import NotFoundError from "../errors/notFoundError.js"; // или свой класс ошибки
-import remarkFabric from "../utils/remark.js"; // рендер markdown
+import { RemarkService } from "./RemarkService.js"; // рендер markdown
 
 export class CurriculumService {
   constructor(db, cacheService) {
@@ -34,12 +34,13 @@ export class CurriculumService {
         },
       },
     });
-
-    if (!curriculum) throw new NotFoundError("Curriculum not found");
+    
+    if (!curriculum) {
+        throw new NotFoundError("Curriculum not found");
+    }
 
     const articles = curriculum.articles;
     const currentArticle = articles.find((a) => a.id === articleId);
-
     if (!currentArticle) {
       throw new NotFoundError(`Article: ${articleId} not found in curriculum`);
     }
@@ -50,8 +51,7 @@ export class CurriculumService {
     }
 
     const md = await readFile(filePath, "utf-8");
-    const remark = remarkFabric();
-    const mainViewModel = await remark(md);
+    const mainViewModel = await new RemarkService().render(md);
 
     const nextArticleId = articles.find(
       (a) => a.order > currentArticle.order,
