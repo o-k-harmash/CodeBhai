@@ -36,7 +36,7 @@ export class CurriculumService {
     });
 
     if (!curriculum) {
-        throw new NotFoundError("Curriculum not found");
+      throw new NotFoundError("Curriculum not found");
     }
 
     const articles = curriculum.articles;

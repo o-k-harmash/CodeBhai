@@ -1,6 +1,6 @@
 import process from "node:process";
-import createCache from "./db/cache/redis.js";
-import createDb from "./db/Prisma.js";
+import { CacheClient } from "./db/cache/redis.js";
+import { DatabaseClient } from "./db/Prisma.js";
 import seeder from "./db/seeder.js";
 import { Logger } from "./Logger.js";
 import { CurriculumRouter } from "./routers/СurriculumRouter.js";
@@ -31,8 +31,9 @@ export class App {
     const shutdown = async (signalOrError) => {
       this.logger?.info(`🛑 Shutdown initiated: ${signalOrError}`);
       try {
-        await this.db?.$disconnect?.();
-        this.logger?.info("✅ DB disconnected");
+        await this.db?.disconnect?.();
+        await this.cache?.disconnect?.();
+        this.logger?.info("✅ dependences disconnected");
       } catch (err) {
         this.logger?.error("❌ Error during shutdown:", err);
       } finally {
@@ -81,12 +82,13 @@ export class App {
   }
 
   async _initDb() {
-    this.db ??= createDb(this.logger);
+    this.db ??= new DatabaseClient(this.logger);
     this.logger.info("DB initialized");
   }
 
   async _initCache() {
-    this.cache ??= await createCache(this.logger);
+    this.cache ??= new CacheClient(this.logger);
+    await this.cache.connect();
     this.logger.info("Cache initialized");
   }
 
