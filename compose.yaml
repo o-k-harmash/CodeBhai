@@ -8,6 +8,7 @@ services:
       - app-network
     volumes:
       - .docker-data/logs:/usr/logs
+      - .docker-data/curriculums:/usr/curriculums
     command: [sh, -c, "npm run seed && npm run start"]
     depends_on:
       - postgres
@@ -56,5 +57,6 @@ networks:
 
 volumes:
   logs:
+  curriculums:
   postgres_data:
   redis_data:

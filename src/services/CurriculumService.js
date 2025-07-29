@@ -5,7 +5,8 @@ import NotFoundError from "../errors/NotFoundError.js"; // или свой кл�
 import { RemarkService } from "./RemarkService.js"; // рендер markdown
 
 export class CurriculumService {
-  constructor(db, cacheService, githubLinkGeneratorService) {
+  constructor(db, curriculumsPath, cacheService, githubLinkGeneratorService) {
+    this.curriculumsPath = curriculumsPath;
     this.db = db;
     this.cacheService = cacheService;
     this.githubLinkGeneratorService = githubLinkGeneratorService;
@@ -46,7 +47,7 @@ export class CurriculumService {
       throw new NotFoundError(`Article: ${articleId} not found in curriculum`);
     }
 
-    const filePath = join("markdown", curriculumId, `${articleId}.md`);
+    const filePath = join(this.curriculumsPath, `${articleId}.md`);
     if (!existsSync(filePath)) {
       throw new NotFoundError(`Article: ${articleId} not found`);
     }

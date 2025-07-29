@@ -98,6 +98,7 @@ export class App {
     const githubLinkGeneratorService = new GithubLinkGeneratorService(process.env.GITHUB_ARTICLES_REPO_URL);
     const curriculumService = new CurriculumService(
       this.db,
+      this.config.paths.curriculums,
       articleCacheService,
       githubLinkGeneratorService,
     );
