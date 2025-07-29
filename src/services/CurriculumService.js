@@ -5,9 +5,10 @@ import NotFoundError from "../errors/NotFoundError.js"; // или свой кл�
 import { RemarkService } from "./RemarkService.js"; // рендер markdown
 
 export class CurriculumService {
-  constructor(db, cacheService) {
+  constructor(db, cacheService, githubLinkGeneratorService) {
     this.db = db;
     this.cacheService = cacheService;
+    this.githubLinkGeneratorService = githubLinkGeneratorService;
   }
 
   async getCurriculumsView() {
@@ -58,6 +59,9 @@ export class CurriculumService {
     )?.id;
 
     dataView = {
+      issueLink: this.githubLinkGeneratorService.getIssueLink(),
+      changeLogLink: this.githubLinkGeneratorService.getChangeLogLink(curriculumId, articleId),
+      editLink: this.githubLinkGeneratorService.getEditLink(curriculumId, articleId),
       imgFile: curriculum.imgFile,
       curriculumId: curriculum.id,
       title: currentArticle.title,
