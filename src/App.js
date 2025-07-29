@@ -7,6 +7,7 @@ import { CurriculumRouter } from "./routers/СurriculumRouter.js";
 import { Server } from "./server/Server.js";
 import { ArticleCacheService } from "./services/ArticleCacheService.js";
 import { CurriculumService } from "./services/CurriculumService.js";
+import GithubLinkGeneratorService from "./services/GithubLinkGeneratorService.js";
 
 export class App {
   static instance;
@@ -94,9 +95,11 @@ export class App {
 
   async _initRouter() {
     const articleCacheService = new ArticleCacheService(this.cache);
+    const githubLinkGeneratorService = new GithubLinkGeneratorService(process.env.GITHUB_ARTICLES_REPO_URL);
     const curriculumService = new CurriculumService(
       this.db,
       articleCacheService,
+      githubLinkGeneratorService,
     );
     this.router ??= new CurriculumRouter(curriculumService, this.logger);
     this.logger.info("Router initialized");

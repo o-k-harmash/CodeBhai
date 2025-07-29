@@ -23,10 +23,14 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 # Copy the rest of the source files into the image.
 COPY . .
 
-RUN npx prisma generate --schema=./src/db/schema.prisma \
+#not single responsibility i am not shure that dockerfile must to sync db client and scheme
+RUN npx prisma generate --schema=./src/db/schema.prisma 
+#and not shure that migration applyied before db container are started
+#   npx prisma migrate dev --schema=./src/db/schema.prisma 
+    
 
 # Run the application as a non-root user.
-USER node
+# USER node
 
 # Run the application.
 CMD node src/app.js
