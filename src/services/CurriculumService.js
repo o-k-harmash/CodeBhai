@@ -47,7 +47,7 @@ export class CurriculumService {
       throw new NotFoundError(`Article: ${articleId} not found in curriculum`);
     }
 
-    const filePath = join(this.curriculumsPath, `${articleId}.md`);
+    const filePath = join(this.curriculumsPath, curriculumId, `${articleId}.md`);
     if (!existsSync(filePath)) {
       throw new NotFoundError(`Article: ${articleId} not found`);
     }
