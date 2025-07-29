@@ -66,9 +66,11 @@ function navbarTemplate(state) {
     </div>`;
 
   return `
+    <div class="nav__content">
       <a class="nav__logo" href="/">
         <strong>C</strong>ode<span class="dot">B</span>hai
       </a>
       ${state.isMobile ? sidebar : inlineMenu}
+    </div>
   `;
 }
