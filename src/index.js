@@ -19,6 +19,7 @@ const config = {
     logsPath: path.join(__rootDir, "logs", "app.log"),
     public: path.join(__rootDir, "public"),
     views: path.join(__dirname, "views"),
+    curriculums: path.join(__dirname, "curriculums"),
   },
 };
 
